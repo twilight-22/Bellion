@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Bellion Store</title>
+    <link rel="stylesheet" href="style login bellion store.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        .input-group{position:relative}
+        .toggle-password{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:transparent;border:none;padding:6px;cursor:pointer;border-radius:6px}
+        .toggle-password svg{width:20px;height:20px;display:block}
+    </style>
+</head>
+<body>
+    <div class="glass-container">
+        <!-- Login Form -->
+        <form id="loginForm" onsubmit="AuthSystem.handleLogin(event)" autocomplete="off">
+            <!-- Dummy fields to capture browser autofill (keeps real inputs empty) -->
+            <input type="text" name="fake_username" autocomplete="username" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;" />
+            <input type="password" name="fake_password" autocomplete="current-password" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;" />
+            <h2>Login</h2>
+
+            <div class="input-group">
+                <input type="email" id="email" name="email_input" required autocomplete="off">
+                <label for="email">Email</label>
+            </div>
+
+            <div class="input-group">
+                <input type="password" id="password" name="password_input" required autocomplete="new-password">
+                <label for="password">Password</label>
+                <button type="button" class="toggle-password" data-target="password" aria-label="Tampilkan password">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </button>
+            </div>
+
+            <div id="loginError" style="color:#f44336; text-align:center; margin-top:8px;"></div>
+
+            <button type="submit" class="login-btn">Login</button>
+
+            <div style="text-align: center; margin-top: 12px; font-size: 13px;">
+                Belum punya akun? <a href="#" id="show-register" style="color:#f76f00; text-decoration:none; font-weight:600;">Daftar</a>
+            </div>
+
+            <div style="text-align: center; margin-top: 16px;">
+                 <div id="g_id_onload"
+                     data-client_id="338433787426-6boeu2to1vkmdhatgoig68cjnmnned7u.apps.googleusercontent.com"
+                     data-callback="handleGoogleSignIn">
+                 </div>
+                <div class="g_id_signin" data-type="standard"></div>
+            </div>
+        </form>
+
+        <!-- Register Form -->
+        <form id="registerForm" style="display:none;" onsubmit="AuthSystem.handleRegister(event)" autocomplete="off">
+            <!-- Dummy fields to capture browser autofill for register form -->
+            <input type="text" name="fake_reg_username" autocomplete="username" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;" />
+            <input type="password" name="fake_reg_password" autocomplete="new-password" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;" />
+            <h2>Daftar Akun</h2>
+
+            <div class="input-group">
+                <input type="email" id="reg-email" name="reg_email_input" required autocomplete="off">
+                <label for="reg-email">Email</label>
+            </div>
+
+            <div class="input-group">
+                <input type="password" id="reg-password" name="reg_password_input" required minlength="6" autocomplete="new-password">
+                <label for="reg-password">Password (min 6 karakter)</label>
+                <button type="button" class="toggle-password" data-target="reg-password" aria-label="Tampilkan password">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </button>
+            </div>
+
+            <div class="input-group">
+                <input type="password" id="reg-confirm" name="reg_confirm_input" required minlength="6" autocomplete="new-password">
+                <label for="reg-confirm">Konfirmasi Password</label>
+                <button type="button" class="toggle-password" data-target="reg-confirm" aria-label="Tampilkan password">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </button>
+            </div>
+
+            <div id="registerError" style="color:#f44336; text-align:center; margin-top:8px;"></div>
+            <div id="registerSuccess" style="color:#4caf50; text-align:center; margin-top:8px;"></div>
+
+            <div style="display:flex; gap:8px; margin-top:12px;">
+                <button type="submit" class="login-btn" style="flex:1;">Daftar</button>
+                <button type="button" id="cancel-register" class="login-btn" style="background:#777; flex:1;">Batal</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // ============================================
+        // BELLION STORE AUTHENTICATION SYSTEM
+        // ============================================
+        const AuthSystem = (function() {
+            'use strict';
+
+            // ========== Constants ==========
+            const USERS_KEY = 'bellion_users';
+            const SESSION_KEY = 'bellion_session';
+            const STORE_PAGE = 'homepage.html';
+
+            // ========== Session Management ==========
+            const Session = {
+                set(email) {
+                    sessionStorage.setItem(SESSION_KEY, JSON.stringify({
+                        email,
+                        loginTime: new Date().toISOString()
+                    }));
+                },
+
+                get() {
+                    try {
+                        return JSON.parse(sessionStorage.getItem(SESSION_KEY) || 'null');
+                    } catch {
+                        return null;
+                    }
+                },
+
+                clear() {
+                    sessionStorage.removeItem(SESSION_KEY);
+                }
+            };
+
+            // ========== Storage Management ==========
+            const Storage = {
+                getUsers() {
+                    try {
+                        return JSON.parse(localStorage.getItem(USERS_KEY) || '{}');
+                    } catch (e) {
+                        console.error('Storage error:', e);
+                        return {};
+                    }
+                },
+
+                saveUsers(users) {
+                    try {
+                        localStorage.setItem(USERS_KEY, JSON.stringify(users));
+                    } catch (e) {
+                        console.error('Storage save error:', e);
+                    }
+                },
+
+                getUser(email) {
+                    const users = this.getUsers();
+                    return users[email] || null;
+                },
+
+                addUser(email, passwordHash) {
+                    const users = this.getUsers();
+                    users[email] = { password: passwordHash };
+                    this.saveUsers(users);
+                },
+
+                userExists(email) {
+                    return email in this.getUsers();
+                }
+            };
+
+            // ========== Password Utilities ==========
+            const Password = {
+                encode(pw) {
+                    return btoa(pw);
+                },
+
+                verify(plainPassword, hash) {
+                    return this.encode(plainPassword) === hash;
+                }
+            };
+            // Password toggle helper (adds eye icon behaviour)
+            const _eyeClosed = `
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>`;
+            const _eyeOpen = `
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 19c-6 0-10-7-10-7a18.86 18.86 0 0 1 4.06-5.94"></path>
+                    <path d="M1 1l22 22"></path>
+                </svg>`;
+
+            function initPasswordToggles() {
+                document.querySelectorAll('.toggle-password').forEach(btn => {
+                    const targetId = btn.dataset.target;
+                    const input = document.getElementById(targetId);
+                    if (!input) return;
+                    // set initial icon
+                    btn.innerHTML = _eyeClosed;
+                    btn.addEventListener('click', () => {
+                        if (input.type === 'password') {
+                            input.type = 'text';
+                            btn.innerHTML = _eyeOpen;
+                            btn.setAttribute('aria-label', 'Sembunyikan password');
+                        } else {
+                            input.type = 'password';
+                            btn.innerHTML = _eyeClosed;
+                            btn.setAttribute('aria-label', 'Tampilkan password');
+                        }
+                    });
+                });
+            }
+
+            // ========== Validation ==========
+            const Validators = {
+                email(value) {
+                    const trimmed = value.trim().toLowerCase();
+                    if (!trimmed) return { valid: false, error: 'Email tidak boleh kosong.' };
+                    if (!trimmed.includes('@')) return { valid: false, error: 'Email tidak valid.' };
+                    return { valid: true, value: trimmed };
+                },
+
+                password(value) {
+                    if (!value) return { valid: false, error: 'Password tidak boleh kosong.' };
+                    if (value.length < 6) return { valid: false, error: 'Password minimal 6 karakter.' };
+                    return { valid: true };
+                },
+
+                passwordMatch(pw1, pw2) {
+                    if (pw1 !== pw2) return { valid: false, error: 'Password tidak cocok.' };
+                    return { valid: true };
+                }
+            };
+
+            // ========== UI Helpers ==========
+            const UI = {
+                showError(elementId, msg) {
+                    const el = document.getElementById(elementId);
+                    if (el) el.textContent = msg;
+                },
+
+                showSuccess(elementId, msg) {
+                    const el = document.getElementById(elementId);
+                    if (el) el.textContent = msg;
+                },
+
+                clearErrors() {
+                    ['loginError', 'registerError', 'registerSuccess'].forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el) el.textContent = '';
+                    });
+                },
+
+                switchForm(hideId, showId) {
+                    this.clearErrors();
+                    const hideForm = document.getElementById(hideId);
+                    const showForm = document.getElementById(showId);
+                    if (hideForm) hideForm.style.display = 'none';
+                    if (showForm) showForm.style.display = '';
+                }
+            };
+
+            // ========== JWT Parser (for Google Sign-In) ==========
+            const JWT = {
+                parse(token) {
+                    try {
+                        const base64Url = token.split('.')[1];
+                        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                        const jsonPayload = decodeURIComponent(
+                            atob(base64).split('').map(c =>
+                                '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+                            ).join('')
+                        );
+                        return JSON.parse(jsonPayload);
+                    } catch (e) {
+                        return null;
+                    }
+                }
+            };
+
+            // ========== Public API ==========
+            return {
+                handleLogin(event) {
+                    event.preventDefault();
+                    UI.clearErrors();
+
+                    const emailVal = document.getElementById('email').value;
+                    const passwordVal = document.getElementById('password').value;
+
+                    const emailValidation = Validators.email(emailVal);
+                    if (!emailValidation.valid) {
+                        UI.showError('loginError', emailValidation.error);
+                        return;
+                    }
+
+                    const passwordValidation = Validators.password(passwordVal);
+                    if (!passwordValidation.valid) {
+                        UI.showError('loginError', passwordValidation.error);
+                        return;
+                    }
+
+                    const email = emailValidation.value;
+                    const user = Storage.getUser(email);
+
+                    if (!user) {
+                        UI.showError('loginError', 'Akun tidak ditemukan. Silakan daftar.');
+                        return;
+                    }
+
+                    if (!Password.verify(passwordVal, user.password)) {
+                        UI.showError('loginError', 'Email atau password salah.');
+                        return;
+                    }
+
+                    Session.set(email);
+                    window.location.href = STORE_PAGE;
+                },
+
+                handleRegister(event) {
+                    event.preventDefault();
+                    UI.clearErrors();
+
+                    const emailVal = document.getElementById('reg-email').value;
+                    const passwordVal = document.getElementById('reg-password').value;
+                    const confirmVal = document.getElementById('reg-confirm').value;
+
+                    const emailValidation = Validators.email(emailVal);
+                    if (!emailValidation.valid) {
+                        UI.showError('registerError', emailValidation.error);
+                        return;
+                    }
+
+                    const passwordValidation = Validators.password(passwordVal);
+                    if (!passwordValidation.valid) {
+                        UI.showError('registerError', passwordValidation.error);
+                        return;
+                    }
+
+                    const matchValidation = Validators.passwordMatch(passwordVal, confirmVal);
+                    if (!matchValidation.valid) {
+                        UI.showError('registerError', matchValidation.error);
+                        return;
+                    }
+
+                    const email = emailValidation.value;
+                    if (Storage.userExists(email)) {
+                        UI.showError('registerError', 'Email sudah terdaftar.');
+                        return;
+                    }
+
+                    const passwordHash = Password.encode(passwordVal);
+                    Storage.addUser(email, passwordHash);
+
+                    UI.showSuccess('registerSuccess', 'Pendaftaran berhasil! Silakan login.');
+                    document.getElementById('registerForm').reset();
+
+                    setTimeout(() => {
+                        UI.switchForm('registerForm', 'loginForm');
+                    }, 1500);
+                },
+
+                handleGoogleSignIn(response) {
+                    const data = JWT.parse(response.credential);
+                    if (data && data.email) {
+                        Session.set(data.email);
+                        window.location.href = STORE_PAGE;
+                    }
+                },
+
+                init() {
+                    // Form toggle
+                    const showRegBtn = document.getElementById('show-register');
+                    const cancelRegBtn = document.getElementById('cancel-register');
+
+                    if (showRegBtn) {
+                        showRegBtn.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            UI.switchForm('loginForm', 'registerForm');
+                        });
+                    }
+
+                    if (cancelRegBtn) {
+                        cancelRegBtn.addEventListener('click', () => {
+                            UI.switchForm('registerForm', 'loginForm');
+                            document.getElementById('registerForm').reset();
+                        });
+                    }
+
+                    // Clear errors on input
+                    ['email', 'password', 'reg-email', 'reg-password', 'reg-confirm'].forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el) el.addEventListener('input', () => UI.clearErrors());
+                    });
+
+                    // Prevent browser autofill: clear values and disable autocomplete on inputs
+                    ['email', 'password', 'reg-email', 'reg-password', 'reg-confirm'].forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el) {
+                            try { el.autocomplete = 'off'; } catch (e) {}
+                            el.value = '';
+                        }
+                    });
+
+                    // Initialize password visibility toggles
+                    try { initPasswordToggles(); } catch (e) { /* ignore if not available */ }
+
+                    // Initialize Google Sign-In
+                    if (window.google?.accounts?.id?.initialize) {
+                        google.accounts.id.initialize({
+                            client_id: '338433787426-6boeu2to1vkmdhatgoig68cjnmnned7u.apps.googleusercontent.com',
+                            callback: handleGoogleSignIn
+                        });
+                    }
+                }
+            };
+        })();
+
+        // Expose a global wrapper so GSI (data-callback) can call into the module
+        window.handleGoogleSignIn = function(response) {
+            try {
+                AuthSystem.handleGoogleSignIn(response);
+            } catch (e) {
+                console.error('Google sign-in wrapper error:', e);
+            }
+        };
+
+        // Initialize on DOM ready
+        document.addEventListener('DOMContentLoaded', () => {
+            AuthSystem.init();
+        });
+    </script>
+</body>
+</html>

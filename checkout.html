@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Program Penjualan Barang</title>
+
+    <link rel="stylesheet" href="check out.css">
+
+</head>
+<body>
+    <div class="container">
+        <h1>PROGRAM PENJUALAN BARANG</h1>
+        
+        <form id="salesForm">
+        <table class="form-section">
+            <tr class="form-row">
+                <td><label>Nama Barang :</label></td>
+                <td><input type="text" id="namaBarang" placeholder=""></td>
+            </tr>
+            <tr class="form-row">
+                <td><label>Harga :</label></td>
+                <td><input type="number" id="harga" readonly=""></td>
+            </tr>
+            <tr class="form-row">
+                <td><label>Jumlah :</label></td>
+                <td><input type="number" id="jumlah" placeholder="" min="1"></td>
+            </tr>
+            <tr class="form-row divider">
+                <td colspan="2"></td>
+            </tr>
+            <tr class="form-row">
+                <td><label>Total :</label></td>
+                <td><input type="number" id="total" readonly="" enable></td>
+            </tr>
+            <tr class="form-row">
+                <td><label>Diskon :</label></td>
+                <td><input type="number" id="diskon" readonly=""></td>
+            </tr>
+            <tr class="form-row">
+                <td><label>Bayar :</label></td>
+                <td><input type="number" id="bayar" placeholder=""></td>
+            </tr>
+            <tr class="form-row divider">
+                <td colspan="2"></td>
+            </tr>
+        </table>
+        
+        <div class="buttons">
+            <button type="button" id="proses">proses</button>
+            <button type="button" id="reset">Reset</button>
+        </div>
+        </form>
+    </div>
+
+<script>
+    const namaBarang = document.getElementById('namaBarang');
+    const harga = document.getElementById('harga');
+    const jumlah = document.getElementById('jumlah');
+    const total = document.getElementById('total');
+    const diskon = document.getElementById('diskon');
+    const bayar = document.getElementById('bayar');
+    const proses = document.getElementById('proses');
+    const reset = document.getElementById('reset');
+
+    function hitungDiskon(totalBelanja) {
+    if (totalBelanja >= 500000) {
+        return totalBelanja * 0.10;
+    } else if (totalBelanja >= 300000) {
+        return totalBelanja * 0.05;
+    }
+    return 0;
+}
+
+    // Hitung total otomatis saat harga / jumlah berubah
+    function hitungTotal() {
+        const h = parseFloat(harga.value) || 0;
+        const j = parseFloat(jumlah.value) || 0;
+        const totalBelanja = h * j;
+        total.value = totalBelanja;
+        diskon.value = hitungDiskon(totalBelanja);
+
+    }
+    
+
+// === AMBIL DATA DARI HALAMAN TOKO ===
+const params = new URLSearchParams(window.location.search);
+if (params.get('cart') !== 'true') {
+    const namaParam = params.get('nama');
+    const hargaParam = params.get('harga');
+    if (namaParam) namaBarang.value = namaParam;
+    if (hargaParam) {
+        harga.value = hargaParam;
+        jumlah.value = 1;
+        hitungTotal();
+    }
+}
+
+
+ // === EVENT LISTENER ===
+    harga.addEventListener('input', hitungTotal);
+    jumlah.addEventListener('input', hitungTotal);
+    
+    // tombol reset
+    reset.addEventListener('click', function () {
+        namaBarang.value = '';
+        harga.value = '';
+        jumlah.value = '';
+        total.value = '';
+        diskon.value = '';
+        bayar.value = '';
+    });
+        
+        // Proses bayar
+    proses.addEventListener('click', function (e) {
+    e.preventDefault(); // ⬅️ PENTING
+
+    if (!namaBarang.value || !harga.value || !jumlah.value) {
+    alert('Data barang belum lengkap!');
+    return;
+    }
+
+    if (!bayar.value) {
+    alert('Masukkan jumlah bayar!');
+    return;
+    }
+
+    const totalBelanja = parseFloat(total.value) || 0;
+    const diskonValue = parseFloat(diskon.value) || 0;
+    const bayarValue = parseFloat(bayar.value) || 0;
+
+    const totalAkhir = totalBelanja - diskonValue;
+    const kembalian = bayarValue - totalAkhir;
+
+
+    if (bayarValue < totalAkhir) {
+        alert('uang kurang!');
+    } else {
+        tampilkanStruk(
+            namaBarang.value,
+            jumlah.value,
+            totalBelanja,
+            diskonValue,
+            totalAkhir,
+            bayarValue,
+            kembalian
+        );
+
+        // Kirim ke WhatsApp
+        let orderText = 'Halo, saya ingin membeli:\n\n';
+        orderText += `${namaBarang.value}\n`;
+        orderText += `Total Belanja: Rp ${totalBelanja.toLocaleString('id-ID')}\n`;
+        orderText += `Diskon: Rp ${diskonValue.toLocaleString('id-ID')}\n`;
+        orderText += `Total Akhir: Rp ${totalAkhir.toLocaleString('id-ID')}\n`;
+        orderText += `Bayar: Rp ${bayarValue.toLocaleString('id-ID')}\n`;
+        orderText += `Kembalian: Rp ${kembalian.toLocaleString('id-ID')}\n
+        Terima kasih!`;
+
+        
+        const phoneNumber = '6283194941654'; // format: 62 + nomor tanpa 0
+        const encodedText = encodeURIComponent(orderText);
+        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedText}`;
+        
+        window.open(whatsappUrl, '_blank');
+    }
+});
+
+function formatRupiah(angka) {
+    return 'Rp' + angka.toLocaleString('id-ID');
+}
+
+function tampilkanStruk(barang, jumlah, total, diskon, totalAkhir, bayar, kembali) {
+    const struk = `
+        ===== STRUK BELION STORE =====
+        Barang   : ${barang}
+        Jumlah   : ${jumlah}
+        Total    : ${formatRupiah(total)}
+        Diskon   : ${formatRupiah(diskon)}
+        -----------------------------
+        Bayar    : ${formatRupiah(bayar)}
+        Kembali  : ${formatRupiah(kembali)}
+        =============================
+    `;
+    alert(struk);
+}
+
+if (params.get('cart') === 'true') {
+    const dataCart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    let totalSemua = 0;
+    let daftarBarang = '';
+
+    console.log(dataCart);
+
+    dataCart.forEach(item => {
+        totalSemua += item.price * item.qty;
+        daftarBarang += `${item.name} (${item.qty})\n`;
+    });
+
+    namaBarang.value = daftarBarang.trim();
+    harga.value = totalSemua;
+    jumlah.value = 1;
+    total.value = totalSemua;
+    hitungTotal();
+}
+
+
+</script>
+
+</body>
+</html>

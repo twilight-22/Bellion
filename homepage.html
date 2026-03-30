@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bellion Store — Homepage</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root{
+            --accent: rgba(4, 120, 87, 0.85);
+            --accent-soft: rgba(4,120,87,0.20);
+            --card: rgba(255,255,255,0.06);
+            --muted: rgba(0,0,0,0.6);
+            --bg-start: rgba(14, 165, 233, 0.04);
+            --bg-end: rgba(168, 85, 247, 0.04);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+        }
+        html,body{
+            height:100%;
+            margin:0;
+            background:linear-gradient(135deg,var(--bg-start),var(--bg-end));
+            color:#111;
+        }
+        .site{
+            min-height:100vh;
+            display:flex;
+            flex-direction:column;
+            gap:28px;
+            padding:26px;
+            box-sizing:border-box;
+        }
+        header{
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:16px;
+            padding:12px 16px;
+            border-radius:12px;
+            background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            backdrop-filter: blur(6px);
+            box-shadow:0 8px 30px rgba(2,6,23,0.05);
+        }
+        .brand{
+            display:flex;
+            align-items:center;
+            gap:12px;
+        }
+        .brand img{
+            width:56px;
+            height:56px;
+            border-radius:10px;
+            object-fit:cover;
+        }
+        .brand h1{
+            margin:0;
+            font-size:1.1rem;
+        }
+        nav a{
+            margin-left:14px;
+            color:var(--muted);
+            text-decoration:none;
+            font-weight:600;
+        }
+        .hero{
+            display:flex;
+            gap:24px;
+            align-items:center;
+            justify-content:space-between;
+            padding:26px;
+            border-radius:14px;
+            background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            box-shadow:0 10px 30px rgba(2,6,23,0.06);
+        }
+        .hero-left{
+            max-width:62%;
+        }
+        .hero h2{
+            margin:0 0 10px;
+            font-size:2rem;
+        }
+        .hero p{
+            margin:0 0 16px;
+            color:#444;
+        }
+        .btn{
+            display:inline-block;
+            padding:12px 18px;
+            background:var(--accent);
+            color:white;
+            border-radius:10px;
+            text-decoration:none;
+            font-weight:700;
+            box-shadow:0 6px 18px rgba(4,120,87,0.12);
+        }
+        .hero-right img{
+            width:220px;
+            height:220px;
+            border-radius:14px;
+            object-fit:cover;
+            box-shadow:0 8px 30px rgba(16,24,40,0.08);
+        }
+        .features{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+            gap:14px;
+        }
+        .card{
+            padding:14px;
+            border-radius:12px;
+            background:var(--card);
+            backdrop-filter: blur(8px);
+            box-shadow:0 6px 18px rgba(2,6,23,0.04);
+        }
+        .products{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+            gap:18px;
+        }
+        .product{
+            border-radius:12px;
+            overflow:hidden;
+            background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+        }
+        .product img{
+            width:250px;
+            height: 250px;
+            object-fit:cover;
+            display:block;
+        }
+        .product .info{
+            padding:12px;
+        }
+        .product .title{
+            font-weight:600;
+            margin:0 0 6px;
+        }
+        .product .price{
+            color:var(--accent);
+            font-weight:700;
+        }
+        footer{
+            margin-top:auto;
+            padding:18px;
+            border-radius:12px;
+            text-align:center;
+            background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+        }
+        @media (max-width:800px)
+        {
+        .hero{
+            flex-direction:column;
+            align-items:flex-start;
+        }
+        .hero-left{
+            max-width:100%;
+        }
+        .hero-right img{
+            width:160px;
+            height:160px;}
+        }
+    </style>
+</head>
+<body>
+    <div class="site">
+        <header>
+            <div class="brand">
+                <img src="image/download-removebg-preview.png" alt="logo">
+                <div>
+                    <h1>BELLION STORE</h1>
+                    <div style="font-size:12px;color:var(--muted)">Pilihan fashion & aksesoris</div>
+                </div>
+            </div>
+            <nav>
+                <a href="login bellion store.html">login</a>
+                <a href="bellion store.html">Shop</a>
+
+            </nav>
+        </header>
+
+        <section class="hero">
+            <div class="hero-left">
+                <h2>Gaya modern. Nyaman. Terjangkau.</h2>
+                <p>Temukan koleksi terbaru kami—dari jaket kasual hingga aksesoris sehari-hari. Lihat rekomendasi khusus untukmu.</p>
+                <a class="btn" href="bellion store.html">Belanja Sekarang</a>
+            </div>
+            <div class="hero-right">
+                <img src="image/jaket.jfif" alt="feature">
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="card">
+                <strong>Gratis Ongkir</strong>
+                <div style="color:var(--muted);font-size:13px">Untuk pembelian di atas Rp200.000</div>
+            </div>
+            <div class="card">
+                <strong>Garansi Kualitas</strong>
+                <div style="color:var(--muted);font-size:13px">Return 7 hari jika tidak sesuai</div>
+            </div>
+            <div class="card">
+                <strong>Pembayaran Aman</strong>
+                <div style="color:var(--muted);font-size:13px">Support e-wallet & kartu kredit</div>
+            </div>
+        </section>
+
+        <section id="products">
+            <h3 style="margin:0 0 12px">Produk Unggulan</h3>
+            <div class="products">
+                <div class="product">
+                    <img src="image/jaket.jfif" alt="Jaket">
+                    <div class="info">
+                        <div class="title">Jaket Casual</div>
+                        <div class="price">Rp199.000</div>
+                    </div>
+                </div>
+                <div class="product">
+                    <img src="image/mouse.jfif" alt="Mouse">
+                    <div class="info">
+                        <div class="title">Mouse Gaming</div>
+                        <div class="price">Rp89.000</div>
+                    </div>
+                </div>
+                <div class="product">
+                    <img src="image/vr.webp" alt="Accessory">
+                    <div class="info">
+                        <div class="title">Aksesoris Pilihan</div>
+                        <div class="price">Rp4.499.000</div>
+                    </div>
+                </div>
+                <div class="product">
+                    <img src="image/modem ROG.webp" alt="Modem">
+                    <div class="info">
+                        <div class="title">Modem ROG</div>
+                        <div class="price">Rp4.999.000</div>
+                    </div>
+                </div>
+            </div>
+            <br>
+                <a class="btn" href="bellion store.html">Lihat Semua Produk</a>
+        </section>
+
+        <footer>
+            © 2026 Bellion Store — Semua hak dilindungi
+        </footer>
+    </div>
+</body>
+</html>
