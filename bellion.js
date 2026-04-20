@@ -5,7 +5,7 @@ let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 // Extended product data with category, rating, and reviews
 const productDataStore = {
-    sepatu: { name: 'Sepatu Casual Pria', price: 250000, image: 'image/Ortus.jpg', category: 'Fashion', },
+    sepatu: { name: 'Sepatu Casual Pria', price: 250000, image: 'image/Ortus-removebg-preview.png', category: 'Fashion', },
     jaket: { name: 'Jaket Premium', price: 180000, image: 'image/jaket.jfif', category: 'Fashion', },
     mouse: { name: 'Mouse Gaming', price: 150000, image: 'image/mouse.jfif', category: 'Elektronik', },
     bd1: { name: 'God Of War (PS4)', price: 170000, image: 'image/gow crot.webp', category: 'Game', },

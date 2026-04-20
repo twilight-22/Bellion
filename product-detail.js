@@ -5,49 +5,49 @@ const productData = {
     sepatu: {
         name: 'Sepatu Casual Pria',
         price: 250000,
-        image: 'image/Ortus.jpg',
+        image: 'image/Ortus-removebg-preview.png',
         category: 'Fashion - Sepatu',
         description: 'Sepatu casual pria dengan desain modern dan nyaman digunakan sepanjang hari. Material berkualitas tinggi dengan sol yang empuk dan tahan lama. Cocok untuk aktivitas sehari-hari maupun acara santai.'
     },
     jaket: {
         name: 'Jaket Premium',
         price: 180000,
-        image: 'image/jaket.jfif',
+        image: 'image/jaket-removebg-preview.png',
         category: 'Fashion - Jaket',
         description: 'Jaket premium dengan bahan berkualitas tinggi yang nyaman dan hangat. Desain stylish dengan kantong yang cukup untuk menyimpan barang penting.'
     },
     mouse: {
         name: 'Mouse Gaming',
         price: 150000,
-        image: 'image/mouse.jfif',
+        image: 'image/mouse-removebg-preview.png',
         category: 'Elektronik - Aksesori',
         description: 'Mouse gaming profesional dengan sensor presisi tinggi dan desain ergonomis. Cocok untuk gaming dan pekerjaan sehari-hari.'
     },
     bd1: {
         name: 'God Of War (PS4)',
         price: 170000,
-        image: 'image/gow crot.webp',
+        image: 'image/gow_crot-removebg-preview.png',
         category: 'Game - PS4',
         description: 'God Of War (2018) — edisi PlayStation 4, cerita epik dengan grafis memukau.'
     },
     bd2: {
         name: 'Sekiro: Shadows Die Twice',
         price: 500000,
-        image: 'image/OIP.webp',
+        image: 'image/OIP-removebg-preview.png',
         category: 'Game - PS4',
         description: 'Sekiro: Shadows Die Twice — game aksi dari FromSoftware dengan sistem pertarungan menantang.'
     },
     bd3: {
         name: 'The Last Of Us Part II',
         price: 250000,
-        image: 'image/tlou.webp',
+        image: 'image/tlou-removebg-preview.png',
         category: 'Game - PS4',
         description: 'The Last Of Us Part II — narasi kuat dan gameplay imersif, pemenang banyak penghargaan.'
     },
     PS4: {
         name: 'PlayStation 4 Uncharted 4 Edition',
         price: 3500000,
-        image: 'image/ps4 unchrted4.jpg',
+        image: 'image/ps4_unchrted4-removebg-preview.png',
         category: 'Konsol - PS4',
         description: 'PlayStation 4 edisi Uncharted 4 — perangkat konsol edisi terbatas dengan bundle khusus.'
     },
@@ -61,35 +61,35 @@ const productData = {
     SepatuPNTFL: {
         name: 'Sepatu Pantofel',
         price: 200000,
-        image: 'image/sepatu pantofel.jpeg',
+        image: 'image/sepatu_pantofel-removebg-preview.png',
         category: 'Fashion - Sepatu',
         description: 'Sepatu pantofel berkualitas, cocok untuk acara formal dan kerja.'
     },
     Beras10kilo: {
         name: 'Beras 10 Kilo',
         price: 100000,
-        image: 'image/beras.jpeg',
+        image: 'image/beras-removebg-preview.png',
         category: 'Makanan - Pokok',
         description: 'Beras 10 kg berkualitas, cocok untuk kebutuhan rumah tangga dan persediaan panjang.'
     },
     Sweater: {
         name:'Sweater Abu-abu',
         price: 120000,
-        image:'image/sweater.avif',
+        image:'image/sweater-removebg-preview.png',
         category:'Fashion - sweater',
         description:'Sweater dengan bahan berkualitas tinggi, nyaman dipakai, dan bahannya lembut. cocok untuk dipakai main, jalan-jalan, atau acara santai',
     },
     CelanaBahanHitam: {
         name: 'Celana bahan hitam',
         price: 150000,
-        image:'image/celana bahan.jfif',
+        image:'image/celana_bahan-removebg-preview.png',
         category:'Fashion - Celana',
         description:'Celana bahan hitam dengan desain klasik, cocok untuk acara formal maupun santai. Terbuat dari bahan berkualitas tinggi yang nyaman dipakai sepanjang hari.',
     },
     CelanaGunung: {
         name:'Celana Gunung', 
         price: 220000, 
-        image: 'image/celana gunung.jpg',
+        image: 'image/celana_gunung-removebg-preview.png',
         category: 'Fashion - Celana',
         description: 'Celana gunung dengan bahan tahan air dan desain ergonomis, cocok untuk aktivitas outdoor dan petualangan.',
     },
@@ -103,7 +103,7 @@ const productData = {
     Keyboard: {
         name:'Keyboard Mechanical Abu-abu',
         price: 675000, 
-        image: 'image/keyboard mechanical.avif',
+        image: 'image/keyboard_mechanical-removebg-preview.png',
         category: 'Elektronik - Keyboard',
         description: 'Keyboard mechanical dengan switch abu-abu, memberikan respons cepat dan nyaman untuk mengetik dan gaming. Desain ergonomis dengan pencahayaan RGB yang dapat disesuaikan.',
     }, 
@@ -117,21 +117,21 @@ const productData = {
     bd4: { 
         name: 'World War Zombie', 
         price: 500000, 
-        image: 'image/WWZ.webp', 
+        image: 'image/WWZ-removebg-preview.png', 
         category: 'Game - PS4', 
         description: 'World War Zombie — game aksi dengan tema zombie apocalypse, menawarkan pengalaman bermain yang seru dan menegangkan.'
     },
     bd5: { 
         name: 'God Of War II',
         price: 170000,
-        image: 'image/GOW2.jpg',
+        image: 'image/GOW2-removebg-preview.png',
         category: 'Game - PS2',
         description: 'God Of War II — sekuel dari game aksi epik, menghadirkan petualangan baru dengan grafis yang ditingkatkan dan gameplay yang lebih seru.' 
         },
     bd6: {
         name: 'God Of War III',
         price: 230000, 
-        image: 'image/GOW3.jfif', 
+        image: 'image/GOW3-removebg-preview.png', 
         category: 'Game', 
         description: 'God Of War III — puncak dari trilogi, menawarkan grafis memukau dan pertarungan epik melawan dewa-dewa mitologi Yunani.'
     },

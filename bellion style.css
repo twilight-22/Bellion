@@ -2,7 +2,7 @@
   --bg:#07090b;
   --surface:#0b1220;
   --card:#0f1724;
-  --muted:#98a0b3;
+  --muted:#1F2937;
   --text:#e6eef8;
   --accent:#ff6a00; /* Shopee-like orange */
   --accent-2:#ffb86b; /* warm secondary */
@@ -17,7 +17,7 @@ body{
   height:100vh;
   overflow:hidden;
   font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
-  background: linear-gradient(180deg,#1e4fb9 10%, #0b1220 100%);
+  background: linear-gradient(180deg,#4DA6FF 10%, #6366F1 97%);
   color:var(--text);
   -webkit-font-smoothing:antialiased;
 }

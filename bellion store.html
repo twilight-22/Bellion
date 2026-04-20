@@ -78,25 +78,25 @@
                 productList.innerHTML = '';
 
                 const productMapping = {
-                    sepatu: { id: 'sepatu', name: 'Sepatu Casual Pria', price: 250000, image: 'image/Ortus.jpg', category: 'Fashion' },
-                    jaket: { id: 'jaket', name: 'Jaket Premium', price: 180000, image: 'image/jaket.jfif', category: 'Fashion' },
-                    SepatuPNTFL: { id: 'SepatuPNTFL', name: 'Sepatu Pantofel', price: 200000, image: 'image/sepatu pantofel.jpeg', category: 'Fashion' },
-                    Sweater: {id: 'Sweater', name: 'Sweater Abu-Abu', price: 120000, image: 'image/sweater.avif', category: 'Fashion'},
-                    CelanaBahanHitam: {id: 'CelanaBahanHitam', name:'Celana Bahan Hitam', price: 150000, image: 'image/celana bahan.jfif',category: 'Fashion'},
-                    CelanaGunung: {id: 'CelanaGunung', name:'Celana Gunung', price: 220000, image: 'image/celana gunung.jpg',category: 'Fashion'},
-                    mouse: { id: 'mouse', name: 'Mouse Gaming', price: 150000, image: 'image/mouse.jfif', category: 'Elektronik' },
-                    PS4: { id: 'PS4', name: 'PlayStation 4 Uncharted 4', price: 3500000, image: 'image/ps4 unchrted4.jpg', category: 'Elektronik' },
+                    sepatu: { id: 'sepatu', name: 'Sepatu Casual Pria', price: 250000, image: 'image/Ortus-removebg-preview.png', category: 'Fashion' },
+                    jaket: { id: 'jaket', name: 'Jaket Premium', price: 180000, image: 'image/jaket-removebg-preview.png', category: 'Fashion' },
+                    SepatuPNTFL: { id: 'SepatuPNTFL', name: 'Sepatu Pantofel', price: 200000, image: 'image/sepatu_pantofel-removebg-preview.png', category: 'Fashion' },
+                    Sweater: {id: 'Sweater', name: 'Sweater Abu-Abu', price: 120000, image: 'image/sweater-removebg-preview.png', category: 'Fashion'},
+                    CelanaBahanHitam: {id: 'CelanaBahanHitam', name:'Celana Bahan Hitam', price: 150000, image: 'image/celana_bahan-removebg-preview.png',category: 'Fashion'},
+                    CelanaGunung: {id: 'CelanaGunung', name:'Celana Gunung', price: 220000, image: 'image/celana_gunung-removebg-preview.png',category: 'Fashion'},
+                    mouse: { id: 'mouse', name: 'Mouse Gaming', price: 150000, image: 'image/mouse-removebg-preview.png', category: 'Elektronik' },
+                    PS4: { id: 'PS4', name: 'PlayStation 4 Uncharted 4', price: 3500000, image: 'image/ps4_unchrted4-removebg-preview.png', category: 'Elektronik' },
                     PSVR: { id: 'PSVR', name: 'PlayStation VR', price: 4500000, image: 'image/vr.webp', category: 'Elektronik' },
                     Monitor: {id: 'Monitor', name:'Monitor 24 inch OLED', price: 800000, image: 'image/monitor.avif',category: 'Elektronik'},
-                    Keyboard: {id: 'Keyboard', name:'Keyboard Mechanical Abu-abu', price: 675000, image: 'image/keyboard mechanical.avif',category: 'Elektronik'}, 
+                    Keyboard: {id: 'Keyboard', name:'Keyboard Mechanical Abu-abu', price: 675000, image: 'image/keyboard_mechanical-removebg-preview.png',category: 'Elektronik'}, 
                     ModemROG: {id: 'ModemROG', name:'Modem ROG 1Gbps speed', price: 5000000, image: 'image/modem ROG.webp',category: 'Elektronik'},
-                    bd1: { id: 'bd1', name: 'God Of War (PS4)', price: 170000, image: 'image/gow crot.webp', category: 'Game' },
-                    bd2: { id: 'bd2', name: 'Sekiro: Shadows Die Twice', price: 500000, image: 'image/OIP.webp', category: 'Game' },
-                    bd3: { id: 'bd3', name: 'The Last Of Us Part II', price: 250000, image: 'image/tlou.webp', category: 'Game' },
-                    bd4: { id: 'bd4', name: 'World War Zombie', price: 500000, image: 'image/WWZ.webp', category: 'Game' },
-                    bd5: { id: 'bd5', name: 'God Of War II', price: 170000, image: 'image/GOW2.jpg', category: 'Game' },
-                    bd6: { id: 'bd6', name: 'God Of War III', price: 230000, image: 'image/GOW3.jfif', category: 'Game' },
-                    Beras10kilo: { id: 'Beras10kilo', name: 'Beras 10 Kilo', price: 100000, image: 'image/beras.jpeg', category: 'Makanan' }
+                    bd1: { id: 'bd1', name: 'God Of War (PS4)', price: 170000, image: 'image/gow_crot-removebg-preview.png', category: 'Game' },
+                    bd2: { id: 'bd2', name: 'Sekiro: Shadows Die Twice', price: 500000, image: 'image/OIP-removebg-preview.png', category: 'Game' },
+                    bd3: { id: 'bd3', name: 'The Last Of Us Part II', price: 250000, image: 'image/tlou-removebg-preview.png', category: 'Game' },
+                    bd4: { id: 'bd4', name: 'World War Zombie', price: 500000, image: 'image/WWZ-removebg-preview.png', category: 'Game' },
+                    bd5: { id: 'bd5', name: 'God Of War II', price: 170000, image: 'image/GOW2-removebg-preview.png', category: 'Game' },
+                    bd6: { id: 'bd6', name: 'God Of War III', price: 230000, image: 'image/GOW3-removebg-preview.png', category: 'Game' },
+                    Beras10kilo: { id: 'Beras10kilo', name: 'Beras 10 Kilo', price: 100000, image: 'image/beras-removebg-preview.png', category: 'Makanan' }
                 };
                 
                 Object.values(productMapping).forEach(product => {
@@ -120,7 +120,7 @@
                             <img src="${product.image}" alt="${product.name}">
                             <p>Rp ${product.price.toLocaleString('id-ID')}</p>
                             <div style="margin-top:8px;font-size:12px;">
-                                ${starsHtml} <span style="color:#666;">• ${combined.count} ulasan</span>
+                                ${starsHtml} <span style="color:#A9A9A9;">• ${combined.count} ulasan</span>
                             </div>
                         </a>
                         <div class="actions">
