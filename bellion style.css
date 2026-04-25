@@ -4,8 +4,8 @@
   --card: #0f1724;
   --muted: #1f2937;
   --text: #e6eef8;
-  --accent: #ff6a00; /* Shopee-like orange */
-  --accent-2: #ffb86b; /* warm secondary */
+  --accent: #ff6a00; 
+  --accent-2: #ffb86b; 
   --glass: rgba(255, 255, 255, 0.075);
   --radius: 14px;
   --ease: cubic-bezier(0.2, 0.9, 0.2, 1);
