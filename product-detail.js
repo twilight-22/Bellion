@@ -1,23 +1,7 @@
-/* Product Detail Page Script */
 
-/* ============================================================
-   DISCOUNT CONFIGURATION
-   Adjust these values whenever you want to change the promo.
-
-   DISCOUNT_PERCENT  – how much off the "original" price (0–99)
-   DISCOUNT_MIN_PRICE – products at/below this price get NO discount
-                        (avoids weird math on very cheap items)
-
-   Example: DISCOUNT_PERCENT = 20 means the product price is shown
-   as the DISCOUNTED price, and the original price displayed above
-   the strikethrough is calculated by working backwards:
-     originalPrice = currentPrice / (1 - discountPercent / 100)
-
-   To disable discounts entirely, set DISCOUNT_PERCENT = 0.
-   ============================================================ */
 const DISCOUNT_CONFIG = {
-  DISCOUNT_PERCENT: 20, // ← change this (e.g. 10, 25, 50)
-  DISCOUNT_MIN_PRICE: 5000, // ← products cheaper than this skip the discount badge
+  DISCOUNT_PERCENT: 30,
+  DISCOUNT_MIN_PRICE: 150000, 
 };
 
 // Product Data
