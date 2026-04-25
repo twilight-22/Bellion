@@ -1,10 +1,10 @@
 :root {
-  --bg: #0f1724; /* deep navy */
+  --bg: #0f1724; 
   --card: #0f1724;
   --surface: #0b1220;
   --muted: #98a0b3;
-  --accent: #ff6a00; /* orange like bellion */
-  --accent-2: #ffb86b; /* warm secondary */
+  --accent: #ff6a00; 
+  --accent-2: #ffb86b; 
   --soft: #f6f7fb;
   --glass: rgba(255, 255, 255, 0.04);
   --radius: 12px;

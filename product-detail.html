@@ -1,116 +1,186 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Detail Produk</title>
-    <link rel="stylesheet" href="bellion style.css">
-    <link rel="stylesheet" href="product-detail.css">
+    <link rel="stylesheet" href="bellion style.css" />
+    <link rel="stylesheet" href="product-detail.css" />
     <style>
-        html, body { height: 100%; margin: 0; }
-        main.detail-container { max-height: calc(100vh - 80px); overflow:auto; padding-bottom:40px; }
-        .star { cursor:pointer; font-size:20px; color:#ddd; }
-        .star.hover, .star.selected { color:#ffc107; }
-        .star-rating { display:inline-block; vertical-align:middle; }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      main.detail-container {
+        max-height: calc(100vh - 80px);
+        overflow: auto;
+        padding-bottom: 40px;
+      }
+      .star {
+        cursor: pointer;
+        font-size: 20px;
+        color: #ddd;
+      }
+      .star.hover,
+      .star.selected {
+        color: #ffc107;
+      }
+      .star-rating {
+        display: inline-block;
+        vertical-align: middle;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <h2>BELLION STORE</h2>
+      <h2>BELLION STORE</h2>
     </header>
 
     <main class="detail-container">
-        <div class="detail-back">
-            <button class="btn-back" onclick="goBack()">← Kembali</button>
+      <div class="detail-back">
+        <button class="btn-back" onclick="goBack()">← Kembali</button>
+      </div>
+
+      <div class="detail-content">
+        <div class="detail-gallery">
+          <img id="productImage" src="" alt="Produk" class="gallery-image" />
         </div>
 
-        <div class="detail-content">
-            <div class="detail-gallery">
-                <img id="productImage" src="" alt="Produk" class="gallery-image">
+        <div class="detail-info">
+          <h1 id="productTitle"></h1>
+
+          <div class="rating" id="productRatingDisplay">
+            <!-- rating summary akan dirender di sini -->
+          </div>
+
+          <div class="price-section">
+            <span class="price" id="productPrice"></span>
+            <span class="original-price" id="originalPrice"></span>
+            <span
+              id="discountBadge"
+              style="
+                background: #ff6a00;
+                color: #fff;
+                font-size: 12px;
+                font-weight: 700;
+                padding: 3px 8px;
+                border-radius: 6px;
+                margin-left: 4px;
+                letter-spacing: 0.5px;
+              "
+            ></span>
+          </div>
+
+          <div class="info-box">
+            <div class="info-row">
+              <span class="label">Stok</span>
+              <span class="value">15 tersedia</span>
             </div>
-
-            <div class="detail-info">
-                <h1 id="productTitle"></h1>
-                
-                <div class="rating" id="productRatingDisplay">
-                    <!-- rating summary akan dirender di sini -->
-                </div>
-
-                <div class="price-section">
-                    <span class="price" id="productPrice"></span>
-                    <span class="original-price">Rp 300.000</span>
-                </div>
-
-                <div class="info-box">
-                    <div class="info-row">
-                        <span class="label">Stok</span>
-                        <span class="value">15 tersedia</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="label">Kategori</span>
-                        <span class="value" id="productCategory">Fashion</span>
-                    </div>
-                </div>
-
-                <div class="description-section">
-                    <h3>Deskripsi Produk</h3>
-                    <p id="productDescription"></p>
-                </div>
-
-                <div class="action-buttons">
-                    <button class="btn btn-add" id="addToCartBtn" onclick="addProductToCart()">
-                        🛒 Tambah Keranjang
-                    </button>
-                    <button class="btn btn-buy" id="buyNowBtn" onclick="buyProductNow()">
-                        Beli Sekarang
-                    </button>
-                </div>
-
-                <div class="quantity-selector">
-                    <label for="quantity">Jumlah:</label>
-                    <div class="qty-control">
-                        <button onclick="decreaseQty()">−</button>
-                        <input type="number" id="quantity" value="1" min="1" max="99">
-                        <button onclick="increaseQty()">+</button>
-                    </div>
-                </div>
+            <div class="info-row">
+              <span class="label">Kategori</span>
+              <span class="value" id="productCategory">Fashion</span>
             </div>
+          </div>
+
+          <div class="description-section">
+            <h3>Deskripsi Produk</h3>
+            <p id="productDescription"></p>
+          </div>
+
+          <div class="action-buttons">
+            <button
+              class="btn btn-add"
+              id="addToCartBtn"
+              onclick="addProductToCart()"
+            >
+              🛒 Tambah Keranjang
+            </button>
+            <button
+              class="btn btn-buy"
+              id="buyNowBtn"
+              onclick="buyProductNow()"
+            >
+              Beli Sekarang
+            </button>
+          </div>
+
+          <div class="quantity-selector">
+            <label for="quantity">Jumlah:</label>
+            <div class="qty-control">
+              <button onclick="decreaseQty()">−</button>
+              <input type="number" id="quantity" value="1" min="1" max="99" />
+              <button onclick="increaseQty()">+</button>
+            </div>
+          </div>
         </div>
-        
-        <!-- Reviews Section -->
-        <section class="reviews-section" style="margin:24px 0; padding:18px; border-top:1px solid #eee;">
-            <h3>Ulasan</h3>
-            <div id="ratingSummary" style="margin:8px 0; font-size:14px; color:#333;">
-                <!-- ringkasan rating akan dirender di sini -->
+      </div>
+
+      <!-- Reviews Section -->
+      <section
+        class="reviews-section"
+        style="margin: 24px 0; padding: 18px; border-top: 1px solid #eee"
+      >
+        <h3>Ulasan</h3>
+        <div
+          id="ratingSummary"
+          style="margin: 8px 0; font-size: 14px; color: #333"
+        >
+          <!-- ringkasan rating akan dirender di sini -->
+        </div>
+
+        <form id="reviewForm" style="margin: 12px 0">
+          <label style="display: block; margin-bottom: 8px">Beri rating:</label>
+          <div style="margin-bottom: 8px" id="ratingInput">
+            <div id="starRating" class="star-rating" data-value="0">
+              <span class="star" data-value="1">★</span>
+              <span class="star" data-value="2">★</span>
+              <span class="star" data-value="3">★</span>
+              <span class="star" data-value="4">★</span>
+              <span class="star" data-value="5">★</span>
             </div>
+          </div>
 
-            <form id="reviewForm" style="margin:12px 0;">
-                <label style="display:block; margin-bottom:8px;">Beri rating:</label>
-                <div style="margin-bottom:8px;" id="ratingInput">
-                    <div id="starRating" class="star-rating" data-value="0">
-                        <span class="star" data-value="1">★</span>
-                        <span class="star" data-value="2">★</span>
-                        <span class="star" data-value="3">★</span>
-                        <span class="star" data-value="4">★</span>
-                        <span class="star" data-value="5">★</span>
-                    </div>
-                </div>
+          <label for="reviewComment" style="display: block; margin-bottom: 8px"
+            >Komentar (opsional):</label
+          >
+          <textarea
+            id="reviewComment"
+            rows="3"
+            style="
+              width: 100%;
+              padding: 8px;
+              border: 1px solid #ddd;
+              border-radius: 4px;
+            "
+            placeholder="Tulis pengalaman Anda..."
+          ></textarea>
 
-                <label for="reviewComment" style="display:block; margin-bottom:8px;">Komentar (opsional):</label>
-                <textarea id="reviewComment" rows="3" style="width:100%; padding:8px; border:1px solid #ddd; border-radius:4px;" placeholder="Tulis pengalaman Anda..."></textarea>
+          <div style="margin-top: 8px">
+            <button
+              type="submit"
+              class="btn"
+              style="
+                background: #f76f00;
+                color: white;
+                padding: 8px 12px;
+                border-radius: 6px;
+                border: none;
+                cursor: pointer;
+              "
+            >
+              Kirim Ulasan
+            </button>
+          </div>
+        </form>
 
-                <div style="margin-top:8px;">
-                    <button type="submit" class="btn" style="background:#f76f00; color:white; padding:8px 12px; border-radius:6px; border:none; cursor:pointer;">Kirim Ulasan</button>
-                </div>
-            </form>
-
-            <div id="reviewsList" style="margin-top:12px;">
-                <!-- daftar ulasan akan dirender di sini -->
-            </div>
-        </section>
+        <div id="reviewsList" style="margin-top: 12px">
+          <!-- daftar ulasan akan dirender di sini -->
+        </div>
+      </section>
     </main>
 
     <script src="bellion.js"></script>
     <script src="product-detail.js"></script>
-</body>
+  </body>
 </html>

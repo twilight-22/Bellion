@@ -405,8 +405,6 @@ function belisekarang(nama, harga) {
     "checkout.html?nama=" + encodeURIComponent(nama) + "&harga=" + harga;
 }
 
-/* ===== FITUR BARU ===== */
-
 // Star rating display
 function renderStars(rating) {
   const fullStars = Math.floor(rating);

@@ -1,5 +1,25 @@
 /* Product Detail Page Script */
 
+/* ============================================================
+   DISCOUNT CONFIGURATION
+   Adjust these values whenever you want to change the promo.
+
+   DISCOUNT_PERCENT  – how much off the "original" price (0–99)
+   DISCOUNT_MIN_PRICE – products at/below this price get NO discount
+                        (avoids weird math on very cheap items)
+
+   Example: DISCOUNT_PERCENT = 20 means the product price is shown
+   as the DISCOUNTED price, and the original price displayed above
+   the strikethrough is calculated by working backwards:
+     originalPrice = currentPrice / (1 - discountPercent / 100)
+
+   To disable discounts entirely, set DISCOUNT_PERCENT = 0.
+   ============================================================ */
+const DISCOUNT_CONFIG = {
+  DISCOUNT_PERCENT: 20, // ← change this (e.g. 10, 25, 50)
+  DISCOUNT_MIN_PRICE: 5000, // ← products cheaper than this skip the discount badge
+};
+
 // Product Data
 const productData = {
   sepatu: {
@@ -399,13 +419,52 @@ function loadProduct() {
   }
 
   setText("productTitle", product.name || "Produk");
-  setText("productPrice", "Rp " + (product.price || 0).toLocaleString("id-ID"));
   setText("productCategory", product.category || "Kategori");
   setText(
     "productDescription",
     product.description || "Deskripsi tidak tersedia.",
   );
   if (product.name) document.title = product.name + " - BELLION STORE";
+
+  // ── Dynamic discount logic ──────────────────────────────────
+  // The prices stored in productData are already the SALE prices.
+  // We work backwards to derive the "original" (pre-discount) price
+  // so the displayed strikethrough is always accurate for every product.
+  const currentPrice = product.price || 0;
+  const pct = DISCOUNT_CONFIG.DISCOUNT_PERCENT;
+  const minForDiscount = DISCOUNT_CONFIG.DISCOUNT_MIN_PRICE;
+  const hasDiscount = pct > 0 && currentPrice > minForDiscount;
+
+  // Discounted price element (the big orange number)
+  setText("productPrice", "Rp " + currentPrice.toLocaleString("id-ID"));
+
+  // Original (pre-discount) price — only shown when discount applies
+  const originalPriceEl = document.getElementById("originalPrice");
+  const discountBadgeEl = document.getElementById("discountBadge");
+
+  if (originalPriceEl) {
+    if (hasDiscount) {
+      // Back-calculate: if currentPrice = original × (1 - pct/100),
+      // then original = currentPrice / (1 - pct/100)
+      const originalPrice = Math.round(currentPrice / (1 - pct / 100));
+      originalPriceEl.textContent =
+        "Rp " + originalPrice.toLocaleString("id-ID");
+      originalPriceEl.style.display = "";
+    } else {
+      // Hide the strikethrough entirely for products with no discount
+      originalPriceEl.style.display = "none";
+    }
+  }
+
+  // Discount badge (e.g. "-20%") — shown/hidden dynamically
+  if (discountBadgeEl) {
+    if (hasDiscount) {
+      discountBadgeEl.textContent = "-" + pct + "%";
+      discountBadgeEl.style.display = "";
+    } else {
+      discountBadgeEl.style.display = "none";
+    }
+  }
 }
 
 // Quantity controls
@@ -508,7 +567,7 @@ function renderReviewsList(id) {
   const stored = getStoredReviews(id);
   if (stored.length === 0) {
     listEl.innerHTML =
-      '<p style="color:#666;">Belum ada ulasan. Jadilah yang pertama!</p>';
+      '<p style="color:#333333;">Belum ada ulasan. Jadilah yang pertama!</p>';
     return;
   }
   listEl.innerHTML = "";
