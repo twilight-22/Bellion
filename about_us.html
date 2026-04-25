@@ -1,217 +1,423 @@
-<!DOCTYPE html>
+<!doctype html>
 <html class="dark" lang="id">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>BELLION | About Us</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-  tailwind.config = {
-    darkMode: "class",
-    theme: {
-      extend: {
-        colors: {
-          "on-primary": "#4d2600", "surface-container-high": "#1c2a41",
-          "surface-container-low": "#0d1c32", "primary": "#ffb77d",
-          "tertiary": "#85cfff", "surface-variant": "#27354c",
-          "outline": "#a48c7a",
-          "on-secondary-container": "#e9a771", "secondary": "#fdb881",
-          "on-background": "#d6e3ff", "surface": "#041329",
-          "primary-container": "#ff8c00",
-          "on-primary-container": "#623200", "background": "#041329",
-          "surface-tint": "#ffb77d", "on-surface": "#d6e3ff",
-          "outline-variant": "#564334", "surface-container-lowest": "#010e24",
-          "surface-container-highest": "#27354c",
-          "on-surface-variant": "#ddc1ae",
-          "surface-container": "#112036"
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>BELLION | About Us</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary": "#4d2600",
+              "surface-container-high": "#1c2a41",
+              "surface-container-low": "#0d1c32",
+              primary: "#ffb77d",
+              tertiary: "#85cfff",
+              "surface-variant": "#27354c",
+              outline: "#a48c7a",
+              "on-secondary-container": "#e9a771",
+              secondary: "#fdb881",
+              "on-background": "#d6e3ff",
+              surface: "#041329",
+              "primary-container": "#ff8c00",
+              "on-primary-container": "#623200",
+              background: "#041329",
+              "surface-tint": "#ffb77d",
+              "on-surface": "#d6e3ff",
+              "outline-variant": "#564334",
+              "surface-container-lowest": "#010e24",
+              "surface-container-highest": "#27354c",
+              "on-surface-variant": "#ddc1ae",
+              "surface-container": "#112036",
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+            fontFamily: {
+              headline: ["Plus Jakarta Sans"],
+              body: ["Inter"],
+              label: ["Inter"],
+            },
+          },
         },
-        borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
-        fontFamily: { headline: ["Plus Jakarta Sans"], body: ["Inter"], label: ["Inter"] }
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
       }
-    }
-  }
-</script>
-<style>
-  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-  .kinetic-glow { background: radial-gradient(circle at center, rgba(255, 140, 0, 0.15) 0%, transparent 70%); }
-  body { background-color: #041329; color: #d6e3ff; font-family: 'Inter', sans-serif; }
-</style>
-</head>
-<body class="bg-background text-on-background font-body selection:bg-primary-container selection:text-on-primary-container">
-
-<!-- Top Navigation Bar -->
-<nav class="fixed top-0 w-full z-50 bg-[#041329]/80 backdrop-blur-xl shadow-[0_20px_50px_rgba(4,19,41,0.5)]">
-  <div class="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto font-['Plus_Jakarta_Sans'] tracking-tight">
-    <a href="homepage.html" class="text-2xl font-black tracking-tighter text-white">BELLION</a>
-    <div class="hidden md:flex items-center gap-8">
-      <a class="text-slate-300 hover:text-white transition-colors" href="homepage.html">Home</a>
-      <a class="text-slate-300 hover:text-white transition-colors" href="bellion_store.html">Shop</a>
-      <a class="text-orange-500 border-b-2 border-orange-500 pb-1" href="#">About Us</a>
-      <a class="text-slate-300 hover:text-white transition-colors" href="your_cart.html">Cart</a>
-    </div>
-    <div class="flex items-center gap-4">
-      <a href="your_cart.html" class="hover:bg-white/5 transition-all duration-300 p-2 rounded-full scale-95 active:scale-90">
-        <span class="material-symbols-outlined text-slate-300">shopping_cart</span>
-      </a>
-    </div>
-  </div>
-  <div class="h-[1px] w-full bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
-</nav>
-
-<main class="pt-24">
-  <!-- Hero -->
-  <section class="relative py-32 kinetic-glow overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none"></div>
-    <div class="max-w-screen-2xl mx-auto px-8 relative z-10">
-      <div class="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 border border-primary/20 rounded-full mb-6">
-        <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-        <span class="text-[10px] font-bold tracking-[0.2em] text-primary uppercase">Our Story</span>
-      </div>
-      <h1 class="text-6xl md:text-8xl font-headline font-black text-white tracking-tighter leading-none mb-8 max-w-4xl">
-        DIBANGUN UNTUK <span class="text-primary">KAMU.</span>
-      </h1>
-      <p class="text-lg text-slate-400 max-w-2xl leading-relaxed">
-        Bellion Store hadir sebagai platform belanja yang menggabungkan gaya hidup modern, kualitas premium, dan harga yang tetap terjangkau untuk semua kalangan.
-      </p>
-    </div>
-  </section>
-
-  <!-- Stats -->
-  <section class="py-20 bg-surface-container-low border-y border-white/5">
-    <div class="max-w-screen-2xl mx-auto px-8">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-        <div class="text-center">
-          <div class="text-5xl font-headline font-black text-primary mb-2">19+</div>
-          <div class="text-slate-400 text-sm uppercase tracking-widest font-bold">Produk</div>
+      .kinetic-glow {
+        background: radial-gradient(
+          circle at center,
+          rgba(255, 140, 0, 0.15) 0%,
+          transparent 70%
+        );
+      }
+      body {
+        background-color: #041329;
+        color: #d6e3ff;
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-background text-on-background font-body selection:bg-primary-container selection:text-on-primary-container"
+  >
+    <!-- Top Navigation Bar -->
+    <nav
+      class="fixed top-0 w-full z-50 bg-[#041329]/80 backdrop-blur-xl shadow-[0_20px_50px_rgba(4,19,41,0.5)]"
+    >
+      <div
+        class="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto font-['Plus_Jakarta_Sans'] tracking-tight"
+      >
+        <a
+          href="homepage.html"
+          class="text-2xl font-black tracking-tighter text-white"
+          >BELLION</a
+        >
+        <div class="hidden md:flex items-center gap-8">
+          <a
+            class="text-slate-300 hover:text-white transition-colors"
+            href="homepage.html"
+            >Home</a
+          >
+          <a
+            class="text-slate-300 hover:text-white transition-colors"
+            href="bellion%20store.html"
+            >Shop</a
+          >
+          <a class="text-orange-500 border-b-2 border-orange-500 pb-1" href="#"
+            >About Us</a
+          >
+          <a
+            class="text-slate-300 hover:text-white transition-colors"
+            href="cart.html"
+            >Cart</a
+          >
         </div>
-        <div class="text-center">
-          <div class="text-5xl font-headline font-black text-primary mb-2">4</div>
-          <div class="text-slate-400 text-sm uppercase tracking-widest font-bold">Kategori</div>
-        </div>
-        <div class="text-center">
-          <div class="text-5xl font-headline font-black text-tertiary mb-2">100%</div>
-          <div class="text-slate-400 text-sm uppercase tracking-widest font-bold">Garansi</div>
-        </div>
-        <div class="text-center">
-          <div class="text-5xl font-headline font-black text-secondary mb-2">24/7</div>
-          <div class="text-slate-400 text-sm uppercase tracking-widest font-bold">Support</div>
+        <div class="flex items-center gap-4">
+          <a
+            href="cart.html"
+            class="hover:bg-white/5 transition-all duration-300 p-2 rounded-full scale-95 active:scale-90"
+          >
+            <span class="material-symbols-outlined text-slate-300"
+              >shopping_cart</span
+            >
+          </a>
         </div>
       </div>
-    </div>
-  </section>
+      <div
+        class="h-[1px] w-full bg-gradient-to-r from-transparent via-white/10 to-transparent"
+      ></div>
+    </nav>
 
-  <!-- Mission -->
-  <section class="py-32 bg-surface">
-    <div class="max-w-screen-2xl mx-auto px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-        <div>
-          <span class="text-primary font-bold tracking-[0.2em] text-xs uppercase mb-4 block">Misi Kami</span>
-          <h2 class="text-5xl font-headline font-black text-white tracking-tighter mb-6">
-            Menghadirkan <span class="text-primary">terbaik</span> untuk setiap orang.
+    <main class="pt-24">
+      <!-- Hero -->
+      <section class="relative py-32 kinetic-glow overflow-hidden">
+        <div
+          class="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none"
+        ></div>
+        <div class="max-w-screen-2xl mx-auto px-8 relative z-10">
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 border border-primary/20 rounded-full mb-6"
+          >
+            <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+            <span
+              class="text-[10px] font-bold tracking-[0.2em] text-primary uppercase"
+              >Our Story</span
+            >
+          </div>
+          <h1
+            class="text-6xl md:text-8xl font-headline font-black text-white tracking-tighter leading-none mb-8 max-w-4xl"
+          >
+            DIBANGUN UNTUK <span class="text-primary">KAMU.</span>
+          </h1>
+          <p class="text-lg text-slate-400 max-w-2xl leading-relaxed">
+            Bellion Store hadir sebagai platform belanja yang menggabungkan gaya
+            hidup modern, kualitas premium, dan harga yang tetap terjangkau
+            untuk semua kalangan.
+          </p>
+        </div>
+      </section>
+
+      <!-- Stats -->
+      <section class="py-20 bg-surface-container-low border-y border-white/5">
+        <div class="max-w-screen-2xl mx-auto px-8">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div class="text-center">
+              <div class="text-5xl font-headline font-black text-primary mb-2">
+                47+
+              </div>
+              <div
+                class="text-slate-400 text-sm uppercase tracking-widest font-bold"
+              >
+                Produk
+              </div>
+            </div>
+            <div class="text-center">
+              <div class="text-5xl font-headline font-black text-primary mb-2">
+                4
+              </div>
+              <div
+                class="text-slate-400 text-sm uppercase tracking-widest font-bold"
+              >
+                Kategori
+              </div>
+            </div>
+            <div class="text-center">
+              <div class="text-5xl font-headline font-black text-tertiary mb-2">
+                100%
+              </div>
+              <div
+                class="text-slate-400 text-sm uppercase tracking-widest font-bold"
+              >
+                Garansi
+              </div>
+            </div>
+            <div class="text-center">
+              <div
+                class="text-5xl font-headline font-black text-secondary mb-2"
+              >
+                24/7
+              </div>
+              <div
+                class="text-slate-400 text-sm uppercase tracking-widest font-bold"
+              >
+                Support
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Mission -->
+      <section class="py-32 bg-surface">
+        <div class="max-w-screen-2xl mx-auto px-8">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <div>
+              <span
+                class="text-primary font-bold tracking-[0.2em] text-xs uppercase mb-4 block"
+                >Misi Kami</span
+              >
+              <h2
+                class="text-5xl font-headline font-black text-white tracking-tighter mb-6"
+              >
+                Menghadirkan <span class="text-primary">terbaik</span> untuk
+                setiap orang.
+              </h2>
+              <p class="text-slate-400 leading-relaxed mb-6">
+                Kami percaya bahwa produk berkualitas tinggi seharusnya dapat
+                diakses oleh semua orang. Bellion Store hadir dengan kurasi
+                produk terbaik di kategori fashion, elektronik, game, dan
+                kebutuhan sehari-hari.
+              </p>
+              <p class="text-slate-400 leading-relaxed">
+                Dengan sistem checkout yang sederhana dan pengiriman ke WhatsApp
+                langsung, kami memastikan pengalaman belanja kamu cepat, aman,
+                dan menyenangkan.
+              </p>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div
+                class="bg-surface-container-low p-6 rounded-2xl border border-white/5 space-y-3"
+              >
+                <div
+                  class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center"
+                >
+                  <span class="material-symbols-outlined text-primary"
+                    >diamond</span
+                  >
+                </div>
+                <h3 class="font-headline font-bold text-white">
+                  Kualitas Premium
+                </h3>
+                <p class="text-slate-400 text-sm">
+                  Setiap produk dipilih dengan standar kualitas tinggi.
+                </p>
+              </div>
+              <div
+                class="bg-surface-container-low p-6 rounded-2xl border border-white/5 space-y-3"
+              >
+                <div
+                  class="w-12 h-12 bg-tertiary/10 rounded-xl flex items-center justify-center"
+                >
+                  <span class="material-symbols-outlined text-tertiary"
+                    >bolt</span
+                  >
+                </div>
+                <h3 class="font-headline font-bold text-white">
+                  Transaksi Cepat
+                </h3>
+                <p class="text-slate-400 text-sm">
+                  Proses order ke WhatsApp dalam hitungan detik.
+                </p>
+              </div>
+              <div
+                class="bg-surface-container-low p-6 rounded-2xl border border-white/5 space-y-3"
+              >
+                <div
+                  class="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center"
+                >
+                  <span class="material-symbols-outlined text-secondary"
+                    >Rp</span
+                  >
+                </div>
+                <h3 class="font-headline font-bold text-white">
+                  Harga Terjangkau
+                </h3>
+                <p class="text-slate-400 text-sm">
+                  Diskon otomatis untuk pembelian di atas Rp300k.
+                </p>
+              </div>
+              <div
+                class="bg-surface-container-low p-6 rounded-2xl border border-white/5 space-y-3"
+              >
+                <div
+                  class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center"
+                >
+                  <span class="material-symbols-outlined text-primary"
+                    >star</span
+                  >
+                </div>
+                <h3 class="font-headline font-bold text-white">Ulasan Nyata</h3>
+                <p class="text-slate-400 text-sm">
+                  Sistem rating dan ulasan produk yang transparan.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Categories showcase -->
+      <section class="py-24 bg-surface-container-low">
+        <div class="max-w-screen-2xl mx-auto px-8">
+          <div class="text-center mb-16">
+            <span
+              class="text-primary font-bold tracking-[0.2em] text-xs uppercase mb-4 block"
+              >Kategori</span
+            >
+            <h2 class="text-4xl font-headline font-black text-white">
+              Temukan yang Kamu Butuhkan
+            </h2>
+          </div>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <a
+              href="bellion%20store.html?cat=Fashion"
+              class="group bg-surface-container-high p-8 rounded-2xl border border-white/5 hover:border-primary/30 hover:bg-surface-container-highest transition-all text-center"
+            >
+              <span
+                class="material-symbols-outlined text-4xl text-primary mb-4 block group-hover:scale-110 transition-transform"
+                >checkroom</span
+              >
+              <h3 class="font-headline font-bold text-white">Fashion</h3>
+              <p class="text-slate-500 text-xs mt-1">12 Produk</p>
+            </a>
+            <a
+              href="bellion%20store.html?cat=Elektronik"
+              class="group bg-surface-container-high p-8 rounded-2xl border border-white/5 hover:border-tertiary/30 hover:bg-surface-container-highest transition-all text-center"
+            >
+              <span
+                class="material-symbols-outlined text-4xl text-tertiary mb-4 block group-hover:scale-110 transition-transform"
+                >devices</span
+              >
+              <h3 class="font-headline font-bold text-white">Elektronik</h3>
+              <p class="text-slate-500 text-xs mt-1">16 Produk</p>
+            </a>
+            <a
+              href="bellion%20store.html?cat=Game"
+              class="group bg-surface-container-high p-8 rounded-2xl border border-white/5 hover:border-secondary/30 hover:bg-surface-container-highest transition-all text-center"
+            >
+              <span
+                class="material-symbols-outlined text-4xl text-secondary mb-4 block group-hover:scale-110 transition-transform"
+                >sports_esports</span
+              >
+              <h3 class="font-headline font-bold text-white">Game</h3>
+              <p class="text-slate-500 text-xs mt-1">10 Produk</p>
+            </a>
+            <a
+              href="bellion%20store.html?cat=Makanan"
+              class="group bg-surface-container-high p-8 rounded-2xl border border-white/5 hover:border-primary/30 hover:bg-surface-container-highest transition-all text-center"
+            >
+              <span
+                class="material-symbols-outlined text-4xl text-primary mb-4 block group-hover:scale-110 transition-transform"
+                >restaurant</span
+              >
+              <h3 class="font-headline font-bold text-white">Makanan</h3>
+              <p class="text-slate-500 text-xs mt-1">7 Produk</p>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="py-24 bg-surface text-center">
+        <div class="max-w-2xl mx-auto px-8">
+          <h2
+            class="text-5xl font-headline font-black text-white tracking-tighter mb-6"
+          >
+            Siap berbelanja?
           </h2>
-          <p class="text-slate-400 leading-relaxed mb-6">
-            Kami percaya bahwa produk berkualitas tinggi seharusnya dapat diakses oleh semua orang. Bellion Store hadir dengan kurasi produk terbaik di kategori fashion, elektronik, game, dan kebutuhan sehari-hari.
+          <p class="text-slate-400 mb-10">
+            Temukan ribuan produk pilihan dengan harga terbaik.
           </p>
-          <p class="text-slate-400 leading-relaxed">
-            Dengan sistem checkout yang sederhana dan pengiriman ke WhatsApp langsung, kami memastikan pengalaman belanja kamu cepat, aman, dan menyenangkan.
+          <a
+            href="bellion%20store.html"
+            class="inline-block bg-primary-container text-on-primary-container font-black py-5 px-12 rounded-xl hover:bg-orange-500 transition-all shadow-[0_0_30px_rgba(255,140,0,0.3)] text-lg active:scale-95"
+          >
+            Mulai Belanja Sekarang →
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#0d1c32] w-full py-12 px-8 border-t border-white/5">
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 lg:flex lg:justify-between items-center max-w-screen-2xl mx-auto"
+      >
+        <div class="mb-8 lg:mb-0">
+          <div class="text-xl font-bold text-white mb-2">BELLION STORE</div>
+          <p class="text-slate-500 text-[10px] uppercase tracking-widest">
+            © 2025 BELLION STORE. ALL RIGHTS RESERVED.
           </p>
         </div>
-        <div class="grid grid-cols-2 gap-4">
-          <div class="bg-surface-container-low p-6 rounded-2xl border border-white/5 space-y-3">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-              <span class="material-symbols-outlined text-primary">diamond</span>
-            </div>
-            <h3 class="font-headline font-bold text-white">Kualitas Premium</h3>
-            <p class="text-slate-400 text-sm">Setiap produk dipilih dengan standar kualitas tinggi.</p>
-          </div>
-          <div class="bg-surface-container-low p-6 rounded-2xl border border-white/5 space-y-3">
-            <div class="w-12 h-12 bg-tertiary/10 rounded-xl flex items-center justify-center">
-              <span class="material-symbols-outlined text-tertiary">bolt</span>
-            </div>
-            <h3 class="font-headline font-bold text-white">Transaksi Cepat</h3>
-            <p class="text-slate-400 text-sm">Proses order ke WhatsApp dalam hitungan detik.</p>
-          </div>
-          <div class="bg-surface-container-low p-6 rounded-2xl border border-white/5 space-y-3">
-            <div class="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center">
-              <span class="material-symbols-outlined text-secondary">Rp</span>
-            </div>
-            <h3 class="font-headline font-bold text-white">Harga Terjangkau</h3>
-            <p class="text-slate-400 text-sm">Diskon otomatis untuk pembelian di atas Rp300k.</p>
-          </div>
-          <div class="bg-surface-container-low p-6 rounded-2xl border border-white/5 space-y-3">
-            <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-              <span class="material-symbols-outlined text-primary">star</span>
-            </div>
-            <h3 class="font-headline font-bold text-white">Ulasan Nyata</h3>
-            <p class="text-slate-400 text-sm">Sistem rating dan ulasan produk yang transparan.</p>
-          </div>
+        <div class="flex flex-wrap gap-8">
+          <a
+            class="text-slate-500 hover:text-orange-500 transition-colors text-sm uppercase tracking-widest"
+            href="#"
+            >Privacy Policy</a
+          >
+          <a
+            class="text-slate-500 hover:text-orange-500 transition-colors text-sm uppercase tracking-widest"
+            href="#"
+            >Terms of Service</a
+          >
+          <a
+            class="text-slate-500 hover:text-orange-500 transition-colors text-sm uppercase tracking-widest"
+            href="#"
+            >Support</a
+          >
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- Categories showcase -->
-  <section class="py-24 bg-surface-container-low">
-    <div class="max-w-screen-2xl mx-auto px-8">
-      <div class="text-center mb-16">
-        <span class="text-primary font-bold tracking-[0.2em] text-xs uppercase mb-4 block">Kategori</span>
-        <h2 class="text-4xl font-headline font-black text-white">Temukan yang Kamu Butuhkan</h2>
-      </div>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-        <a href="bellion_store.html?cat=Fashion" class="group bg-surface-container-high p-8 rounded-2xl border border-white/5 hover:border-primary/30 hover:bg-surface-container-highest transition-all text-center">
-          <span class="material-symbols-outlined text-4xl text-primary mb-4 block group-hover:scale-110 transition-transform">checkroom</span>
-          <h3 class="font-headline font-bold text-white">Fashion</h3>
-          <p class="text-slate-500 text-xs mt-1">6 Produk</p>
-        </a>
-        <a href="bellion_store.html?cat=Elektronik" class="group bg-surface-container-high p-8 rounded-2xl border border-white/5 hover:border-tertiary/30 hover:bg-surface-container-highest transition-all text-center">
-          <span class="material-symbols-outlined text-4xl text-tertiary mb-4 block group-hover:scale-110 transition-transform">devices</span>
-          <h3 class="font-headline font-bold text-white">Elektronik</h3>
-          <p class="text-slate-500 text-xs mt-1">6 Produk</p>
-        </a>
-        <a href="bellion_store.html?cat=Game" class="group bg-surface-container-high p-8 rounded-2xl border border-white/5 hover:border-secondary/30 hover:bg-surface-container-highest transition-all text-center">
-          <span class="material-symbols-outlined text-4xl text-secondary mb-4 block group-hover:scale-110 transition-transform">sports_esports</span>
-          <h3 class="font-headline font-bold text-white">Game</h3>
-          <p class="text-slate-500 text-xs mt-1">6 Produk</p>
-        </a>
-        <a href="bellion_store.html?cat=Makanan" class="group bg-surface-container-high p-8 rounded-2xl border border-white/5 hover:border-primary/30 hover:bg-surface-container-highest transition-all text-center">
-          <span class="material-symbols-outlined text-4xl text-primary mb-4 block group-hover:scale-110 transition-transform">restaurant</span>
-          <h3 class="font-headline font-bold text-white">Makanan</h3>
-          <p class="text-slate-500 text-xs mt-1">1 Produk</p>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="py-24 bg-surface text-center">
-    <div class="max-w-2xl mx-auto px-8">
-      <h2 class="text-5xl font-headline font-black text-white tracking-tighter mb-6">
-        Siap berbelanja?
-      </h2>
-      <p class="text-slate-400 mb-10">Temukan ribuan produk pilihan dengan harga terbaik.</p>
-      <a href="bellion_store.html"
-        class="inline-block bg-primary-container text-on-primary-container font-black py-5 px-12 rounded-xl hover:bg-orange-500 transition-all shadow-[0_0_30px_rgba(255,140,0,0.3)] text-lg active:scale-95">
-        Mulai Belanja Sekarang →
-      </a>
-    </div>
-  </section>
-</main>
-
-<!-- Footer -->
-<footer class="bg-[#0d1c32] w-full py-12 px-8 border-t border-white/5">
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:flex lg:justify-between items-center max-w-screen-2xl mx-auto">
-    <div class="mb-8 lg:mb-0">
-      <div class="text-xl font-bold text-white mb-2">BELLION STORE</div>
-      <p class="text-slate-500 text-[10px] uppercase tracking-widest">© 2025 BELLION STORE. ALL RIGHTS RESERVED.</p>
-    </div>
-    <div class="flex flex-wrap gap-8">
-      <a class="text-slate-500 hover:text-orange-500 transition-colors text-sm uppercase tracking-widest" href="#">Privacy Policy</a>
-      <a class="text-slate-500 hover:text-orange-500 transition-colors text-sm uppercase tracking-widest" href="#">Terms of Service</a>
-      <a class="text-slate-500 hover:text-orange-500 transition-colors text-sm uppercase tracking-widest" href="#">Support</a>
-    </div>
-  </div>
-</footer>
-</body>
+    </footer>
+  </body>
 </html>

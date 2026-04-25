@@ -1,152 +1,590 @@
 <html>
-    <head>
-        <title>Bellion store</title>
-        <link rel="stylesheet" href="bellion style.css">
-    </head>
-    <body>
-        <div class="main-container">
-            <!-- Header tetap di atas -->
-            <header>
-                <h2>BELLION STORE</h2>
-                <nav class="nav">
-                    <a href="homepage.html">Home</a>
-                    <a href="login bellion store.html">Login</a>
-                </nav>
-            </header>
+  <head>
+    <title>Bellion store</title>
+    <link rel="stylesheet" href="bellion style.css" />
+  </head>
+  <body>
+    <div class="main-container">
+      <header>
+        <h2>BELLION STORE</h2>
+        <nav class="nav">
+          <a href="homepage.html">Home</a>
+          <a href="login bellion store.html">Login</a>
+        </nav>
+      </header>
 
-            <div class="content-wrapper">
-                <!-- Sidebar Keranjang (tetap) -->
-                <aside class="cart-sidebar">
-                    <div class="cart-header">
-                        <h3>Keranjang Belanja</h3>
-                        <button class="close-cart-btn" onclick="toggleCart()" style="display:none;">✕</button>
-                    </div>
-                    <div id="cart-items"></div>
-                    <div class="checkout-row">
-                        <div class="total"><span>Total</span><span id="cart-total">Rp 0</span></div>
-                        <button class="btn btn-buy checkout-btn" onclick="checkoutCart()">Checkout</button>
-                    </div>
-                </aside>
+      <div class="content-wrapper">
+        <!-- Cart Overlay -->
+        <div
+          id="cart-overlay"
+          class="cart-overlay"
+          onclick="toggleCart()"
+        ></div>
 
-                <!-- Main Content (scrollable) -->
-                <main class="main-content">
-                    <!-- Search and Filter Section (tetap di atas) -->
-                    <div class="search-filter-section">
-                        <input type="text" id="productSearch" placeholder="Cari produk..." style="width:300px;padding:8px 12px;border:1px solid #ddd;border-radius:20px;font-size:13px;outline:none;" />
-                        <select id="categoryFilter" style="padding:8px 12px;border:1px solid #ddd;border-radius:20px;font-size:13px;background:white;cursor:pointer;outline:none;">
-                            <option value="all">Semua Kategori</option>
-                            <option value="Fashion">Fashion</option>
-                            <option value="Elektronik">Elektronik</option>
-                            <option value="Game">Game</option>
-                            <option value="Makanan">Makanan</option>
-                        </select>
-                        <!-- ICON KERANJANG -->
-                        <div class="cart" onclick="toggleCart()">🛒
-                            <span id="cart-count">0</span>
-                        </div>
-                    </div>
+        <!-- Floating Cart Drawer -->
+        <div id="cart-drawer" class="cart-drawer">
+          <div class="cart-header">
+            <h3>Keranjang Belanja</h3>
+            <button class="close-cart" onclick="toggleCart()">✕</button>
+          </div>
 
-                    <!-- Product List (scrollable) -->
-                    <div class="product-list">
-                    </div>
-                </main>
+          <div id="cart-items" class="cart-items-container">
+            <div class="empty-cart-msg">Keranjangmu masih kosong nih.</div>
+          </div>
+
+          <div class="cart-footer">
+            <div class="total-section">
+              <span>Total Pembayaran</span>
+              <span id="cart-total" class="total-amount">Rp 0</span>
             </div>
+            <button class="btn-checkout" onclick="checkoutCart()">
+              Checkout Sekarang
+            </button>
+          </div>
         </div>
 
-        <script src="bellion.js"></script>
-        <script>
-            // Render products dynamically with categories and ratings
-            function renderProducts() {
-                const productList = document.querySelector('.product-list');
-                if (!productList || typeof productDataStore === 'undefined') return;
+        <main class="main-content">
+          <div class="search-filter-section">
+            <input
+              type="text"
+              id="productSearch"
+              placeholder="Cari produk..."
+              style="
+                width: 300px;
+                padding: 8px 12px;
+                border: 1px solid #ddd;
+                border-radius: 20px;
+                font-size: 13px;
+                outline: none;
+              "
+              oninput="onSearchOrFilter()"
+            />
+            <select
+              id="categoryFilter"
+              style="
+                padding: 8px 12px;
+                border: 1px solid #ddd;
+                border-radius: 20px;
+                font-size: 13px;
+                background: white;
+                cursor: pointer;
+                outline: none;
+              "
+              onchange="onSearchOrFilter()"
+            >
+              <option value="all">Semua Kategori</option>
+              <option value="Fashion">Fashion</option>
+              <option value="Elektronik">Elektronik</option>
+              <option value="Game">Game</option>
+              <option value="Makanan">Makanan</option>
+            </select>
+            <div class="cart" onclick="toggleCart()">
+              🛒
+              <span id="cart-count">0</span>
+            </div>
+          </div>
 
-                function getStoredReviews(id) {
-                    try {
-                        return JSON.parse(localStorage.getItem('reviews_' + id) || '[]');
-                    } catch (e) { return []; }
-                }
+          <div class="product-list"></div>
 
-                function calculateCombinedRating(id, storedReviews) {
-                    if (!storedReviews || storedReviews.length === 0) {
-                        return { avg: 0, count: 0 };
-                    }
-                    const sum = storedReviews.reduce((s, r) => s + (r.rating || 0), 0);
-                    const avg = sum / storedReviews.length;
-                    return { avg: Math.round(avg * 10) / 10, count: storedReviews.length };
-                }
+          <!-- Pagination -->
+          <div class="pagination-info" id="pagination-info"></div>
+          <div class="pagination" id="pagination"></div>
+        </main>
+      </div>
+    </div>
 
-                productList.innerHTML = '';
+    <script src="bellion.js"></script>
+    <script>
+      const PRODUCTS_PER_PAGE = 15;
+      let currentPage = 1;
 
-                const productMapping = {
-                    sepatu: { id: 'sepatu', name: 'Sepatu Casual Pria', price: 250000, image: 'image/Ortus-removebg-preview.png', category: 'Fashion' },
-                    jaket: { id: 'jaket', name: 'Jaket Premium', price: 180000, image: 'image/jaket-removebg-preview.png', category: 'Fashion' },
-                    SepatuPNTFL: { id: 'SepatuPNTFL', name: 'Sepatu Pantofel', price: 200000, image: 'image/sepatu_pantofel-removebg-preview.png', category: 'Fashion' },
-                    Sweater: {id: 'Sweater', name: 'Sweater Abu-Abu', price: 120000, image: 'image/sweater-removebg-preview.png', category: 'Fashion'},
-                    CelanaBahanHitam: {id: 'CelanaBahanHitam', name:'Celana Bahan Hitam', price: 150000, image: 'image/celana_bahan-removebg-preview.png',category: 'Fashion'},
-                    CelanaGunung: {id: 'CelanaGunung', name:'Celana Gunung', price: 220000, image: 'image/celana_gunung-removebg-preview.png',category: 'Fashion'},
-                    mouse: { id: 'mouse', name: 'Mouse Gaming', price: 150000, image: 'image/mouse-removebg-preview.png', category: 'Elektronik' },
-                    PS4: { id: 'PS4', name: 'PlayStation 4 Uncharted 4', price: 3500000, image: 'image/ps4_unchrted4-removebg-preview.png', category: 'Elektronik' },
-                    PSVR: { id: 'PSVR', name: 'PlayStation VR', price: 4500000, image: 'image/vr.webp', category: 'Elektronik' },
-                    Monitor: {id: 'Monitor', name:'Monitor 24 inch OLED', price: 800000, image: 'image/monitor.avif',category: 'Elektronik'},
-                    Keyboard: {id: 'Keyboard', name:'Keyboard Mechanical Abu-abu', price: 675000, image: 'image/keyboard_mechanical-removebg-preview.png',category: 'Elektronik'}, 
-                    ModemROG: {id: 'ModemROG', name:'Modem ROG 1Gbps speed', price: 5000000, image: 'image/modem ROG.webp',category: 'Elektronik'},
-                    bd1: { id: 'bd1', name: 'God Of War (PS4)', price: 170000, image: 'image/gow_crot-removebg-preview.png', category: 'Game' },
-                    bd2: { id: 'bd2', name: 'Sekiro: Shadows Die Twice', price: 500000, image: 'image/OIP-removebg-preview.png', category: 'Game' },
-                    bd3: { id: 'bd3', name: 'The Last Of Us Part II', price: 250000, image: 'image/tlou-removebg-preview.png', category: 'Game' },
-                    bd4: { id: 'bd4', name: 'World War Zombie', price: 500000, image: 'image/WWZ-removebg-preview.png', category: 'Game' },
-                    bd5: { id: 'bd5', name: 'God Of War II', price: 170000, image: 'image/GOW2-removebg-preview.png', category: 'Game' },
-                    bd6: { id: 'bd6', name: 'God Of War III', price: 230000, image: 'image/GOW3-removebg-preview.png', category: 'Game' },
-                    Beras10kilo: { id: 'Beras10kilo', name: 'Beras 10 Kilo', price: 100000, image: 'image/beras-removebg-preview.png', category: 'Makanan' }
-                };
-                
-                Object.values(productMapping).forEach(product => {
-                    // prefer lookup by id, fallback to name search
-                    let productData = productDataStore[product.id];
-                    if (!productData) {
-                        const key = Object.keys(productDataStore).find(k => productDataStore[k].name === product.name);
-                        productData = key ? productDataStore[key] : null;
-                    }
+      const productMapping = [
+        [
+          {
+            id: "sepatu",
+            name: "Sepatu Casual Pria",
+            price: 250000,
+            image: "image/Ortus-removebg-preview.png",
+            category: "Fashion",
+          },
+          {
+            id: "jaket",
+            name: "Jaket Premium",
+            price: 180000,
+            image: "image/jaket-removebg-preview.png",
+            category: "Fashion",
+          },
+          {
+            id: "SepatuPNTFL",
+            name: "Sepatu Pantofel",
+            price: 200000,
+            image: "image/sepatu_pantofel-removebg-preview.png",
+            category: "Fashion",
+          },
+          {
+            id: "Sweater",
+            name: "Sweater Abu-Abu",
+            price: 120000,
+            image: "image/sweater-removebg-preview.png",
+            category: "Fashion",
+          },
+          {
+            id: "CelanaBahanHitam",
+            name: "Celana Bahan Hitam",
+            price: 150000,
+            image: "image/celana_bahan-removebg-preview.png",
+            category: "Fashion",
+          },
+          {
+            id: "CelanaGunung",
+            name: "Celana Gunung",
+            price: 220000,
+            image: "image/celana_gunung-removebg-preview.png",
+            category: "Fashion",
+          },
 
-                    const stored = getStoredReviews(product.id);
-                    const combined = calculateCombinedRating(product.id, stored);
-                    const starsHtml = (typeof renderStars === 'function') ? renderStars(combined.avg) : `${combined.avg}★`;
+          {
+            id: "mouse",
+            name: "Mouse Gaming",
+            price: 150000,
+            image: "image/mouse-removebg-preview.png",
+            category: "Elektronik",
+          },
+          {
+            id: "PS4",
+            name: "PlayStation 4 Uncharted 4",
+            price: 3500000,
+            image: "image/ps4_unchrted4-removebg-preview.png",
+            category: "Elektronik",
+          },
+          {
+            id: "PSVR",
+            name: "PlayStation VR",
+            price: 4500000,
+            image: "image/vr.webp",
+            category: "Elektronik",
+          },
+          {
+            id: "Monitor",
+            name: "Monitor 24 inch OLED",
+            price: 800000,
+            image: "image/monitor.avif",
+            category: "Elektronik",
+          },
+          {
+            id: "Keyboard",
+            name: "Keyboard Mechanical Abu-abu",
+            price: 675000,
+            image: "image/keyboard_mechanical-removebg-preview.png",
+            category: "Elektronik",
+          },
+          {
+            id: "ModemROG",
+            name: "Modem ROG 1Gbps speed",
+            price: 5000000,
+            image: "image/modem ROG.webp",
+            category: "Elektronik",
+          },
 
-                    const productDiv = document.createElement('div');
-                    productDiv.className = 'product';
-                    productDiv.dataset.category = product.category;
-                    productDiv.innerHTML = `
-                        <a href="product-detail.html?id=${product.id}" class="product-link">
-                            <h3>${product.name}</h3>
-                            <img src="${product.image}" alt="${product.name}">
-                            <p>Rp ${product.price.toLocaleString('id-ID')}</p>
-                            <div style="margin-top:8px;font-size:12px;">
-                                ${starsHtml} <span style="color:#A9A9A9;">• ${combined.count} ulasan</span>
+          {
+            id: "bd1",
+            name: "God Of War (PS4)",
+            price: 170000,
+            image: "image/gow_crot-removebg-preview.png",
+            category: "Game",
+          },
+          {
+            id: "bd2",
+            name: "Sekiro: Shadows Die Twice",
+            price: 500000,
+            image: "image/OIP-removebg-preview.png",
+            category: "Game",
+          },
+          {
+            id: "bd3",
+            name: "The Last Of Us Part II",
+            price: 250000,
+            image: "image/tlou-removebg-preview.png",
+            category: "Game",
+          },
+          {
+            id: "bd4",
+            name: "World War Zombie",
+            price: 500000,
+            image: "image/WWZ-removebg-preview.png",
+            category: "Game",
+          },
+          {
+            id: "bd5",
+            name: "God Of War II",
+            price: 170000,
+            image: "image/GOW2-removebg-preview.png",
+            category: "Game",
+          },
+          {
+            id: "bd6",
+            name: "God Of War III",
+            price: 230000,
+            image: "image/GOW3-removebg-preview.png",
+            category: "Game",
+          },
+
+          {
+            id: "Beras10kilo",
+            name: "Beras 10 Kilo",
+            price: 100000,
+            image: "image/beras-removebg-preview.png",
+            category: "Makanan",
+          },
+          {
+            id: "Sawit",
+            name: "Sawit",
+            price: 3500000,
+            image: "image/sawit.png",
+            category: "Makanan",
+          },
+          {
+            id: "DimsumMentai",
+            name: "Dimsum Mentai",
+            price: 10000,
+            image: "image/dimsum mentai.png",
+            category: "Makanan",
+          },
+          {
+            id: "Oat1kg",
+            name: "Oat 1kg",
+            price: 50000,
+            image: "image/oat 1kg.png",
+            category: "Makanan",
+          },
+          {
+            id: "SusuPlantProtein",
+            name: "Susu Plant Protein",
+            price: 170000,
+            image: "image/susu protein.png",
+            category: "Makanan",
+          },
+          {
+            id: "MieSekardus",
+            name: "Mie Sekardus",
+            price: 125000,
+            image: "image/mie sekardus.png",
+            category: "Makanan",
+          },
+
+          {
+            id: "RogAlly",
+            name: "Rog Ally",
+            price: 10000000,
+            image: "image/rojali.png",
+            category: "Elektronik",
+          },
+          {
+            id: "RogAllyX",
+            name: "Rog Ally X",
+            price: 17000000,
+            image: "image/rojali x.png",
+            category: "Elektronik",
+          },
+          {
+            id: "NintendoSwitch2",
+            name: "Nintendo Switch 2",
+            price: 9500000,
+            image: "image/nintendi switch 2.png",
+            category: "Elektronik",
+          },
+
+          {
+            id: "KaosLari",
+            name: "Kaos Lari",
+            price: 110000,
+            image: "image/kaos lari.png",
+            category: "Fashion",
+          },
+          {
+            id: "KacamataHitam",
+            name: "Kacamata Hitam",
+            price: 200000,
+            image: "image/kacamata hitam.png",
+            category: "Fashion",
+          },
+          {
+            id: "SepatuBola",
+            name: "Sepatu Bola",
+            price: 500000,
+            image: "image/sepatu bola.png",
+            category: "Fashion",
+          },
+          {
+            id: "Steamdeck",
+            name: "Steamdeck",
+            price: 9000000,
+            image: "image/steamdeck.png",
+            category: "Elektronik",
+          },
+          {
+            id: "PlayGift",
+            name: "Play Gift",
+            price: 850000,
+            image: "image/play gift (1).png",
+            category: "Game",
+          },
+          {
+            id: "VoucherRoblox",
+            name: "Voucher Roblox",
+            price: 150000,
+            image: "image/voucher roblox.png",
+            category: "Game",
+          },
+          {
+            id: "FloatyTerserah",
+            name: "Floaty Terserah",
+            price: 8000,
+            image: "image/floaty terserah (1).png",
+            category: "Makanan",
+          },
+          {
+            id: "JaketFF",
+            name: "Hoodie Free Fire",
+            price: 50000,
+            image: "image/jaket ff.png",
+            category: "Fashion",
+          },
+          {
+            id: "SpeakerJBL",
+            name: "Speaker JBL",
+            price: 500000,
+            image: "image/speaker jbl (1).png",
+            category: "Elektronik",
+          },
+          {
+            id: "BajuAlucard",
+            name: "Baju Alucard",
+            price: 35000,
+            image: "image/kaos alucard.png",
+            category: "Fashion",
+          },
+          {
+            id: "PompaAir",
+            name: "Pompa Air",
+            price: 600000,
+            image: "image/pompa air.png",
+            category: "Elektronik",
+          },
+          {
+            id: "BigEnterKey",
+            name: "Big Enter Key",
+            price: 150000,
+            image: "image/bantal key enter.png",
+            category: "Elektronik",
+          },
+          {
+            id: "ControllerXboxDeadpool",
+            name: "Controller Xbox Deadpool",
+            price: 700000,
+            image: "image/deadpool xbox controller.png",
+            category: "Elektronik",
+          },
+          {
+            id: "PowebankOraimoXTahilalats",
+            name: "Powerbank Oraimo X Tahilalats",
+            price: 100000,
+            image: "image/powerbank oraimo x tahilalats.png",
+            category: "Elektronik",
+          },
+          {
+            id: "RunningBelt",
+            name: "Running Belt",
+            price: 30000,
+            image: "image/running belt.png",
+            category: "Fashion",
+          },
+          {
+            id: "Sandisk256gb",
+            name: "Sandisk 256GB",
+            price: 300000,
+            image: "image/sandisk 256gb.png",
+            category: "Elektronik",
+          },
+          {
+            id: "DeathStranding",
+            name: "Death Stranding",
+            price: 300000,
+            image: "image/DeathStrranding.png",
+            category: "Game",
+          },
+          {
+            id: "PosterDragonball",
+            name: "Poster Dragonball",
+            price: 2000,
+            image: "image/dekorasi dragonball.png",
+            category: "Game",
+          },
+        ],
+      ];
+
+      function getStoredReviews(id) {
+        try {
+          return JSON.parse(localStorage.getItem("reviews_" + id) || "[]");
+        } catch (e) {
+          return [];
+        }
+      }
+
+      function calculateCombinedRating(id) {
+        const stored = getStoredReviews(id);
+        if (!stored.length) return { avg: 0, count: 0 };
+        const sum = stored.reduce((s, r) => s + (r.rating || 0), 0);
+        return {
+          avg: Math.round((sum / stored.length) * 10) / 10,
+          count: stored.length,
+        };
+      }
+
+      function getFilteredProducts() {
+        const searchVal = (
+          document.getElementById("productSearch")?.value || ""
+        ).toLowerCase();
+        const categoryVal =
+          document.getElementById("categoryFilter")?.value || "all";
+
+        return productMapping[0].filter((p) => {
+          const matchCat = categoryVal === "all" || p.category === categoryVal;
+          const matchSearch = p.name.toLowerCase().includes(searchVal);
+          return matchCat && matchSearch;
+        });
+      }
+
+      function renderProducts() {
+        const productList = document.querySelector(".product-list");
+        if (!productList) return;
+
+        const filtered = getFilteredProducts();
+        const totalPages = Math.ceil(filtered.length / PRODUCTS_PER_PAGE);
+
+        // Pastiin currentPage tidak melebihi totalPages
+        if (currentPage > totalPages) currentPage = Math.max(1, totalPages);
+
+        const start = (currentPage - 1) * PRODUCTS_PER_PAGE;
+        const end = start + PRODUCTS_PER_PAGE;
+        const pageProducts = filtered.slice(start, end);
+
+        productList.innerHTML = "";
+
+        if (pageProducts.length === 0) {
+          productList.innerHTML =
+            '<p style="text-align:center;color:#333333;margin-top:40px;">Produk tidak ditemukan.</p>';
+        } else {
+          pageProducts.forEach((product) => {
+            const combined = calculateCombinedRating(product.id);
+            const starsHtml =
+              typeof renderStars === "function"
+                ? renderStars(combined.avg)
+                : `${combined.avg}★`;
+
+            const productDiv = document.createElement("div");
+            productDiv.className = "product";
+            productDiv.dataset.category = product.category;
+            productDiv.innerHTML = `
+                            <a href="product-detail.html?id=${product.id}" class="product-link">
+                                <h3>${product.name}</h3>
+                                <img src="${product.image}" alt="${product.name}">
+                                <p>Rp ${product.price.toLocaleString("id-ID")}</p>
+                                <div style="margin-top:8px;font-size:12px;">
+                                    ${starsHtml} <span style="color:#333333;">• ${combined.count} ulasan</span>
+                                </div>
+                            </a>
+                            <div class="actions">
+                                <button class="btn btn-buy" onclick="belisekarang('${product.name}', ${product.price})">Beli</button>
+                                <button class="btn btn-add" onclick="addToCart('${product.name}', ${product.price}, '${product.image}')">Tambah</button>
                             </div>
-                        </a>
-                        <div class="actions">
-                            <button class="btn btn-buy" onclick="belisekarang('${product.name}', ${product.price})">Beli</button>
-                            <button class="btn btn-add" onclick="addToCart('${product.name}', ${product.price}, '${product.image}')">Tambah</button>
-                        </div>
-                    `;
-                    productList.appendChild(productDiv);
-                });
-                
-                filterProducts();
-                updateCartCount();
-            }
-            
-            // Render setelah DOM siap
-            document.addEventListener('DOMContentLoaded', () => {
-                renderProducts();
-            });
-            
-            // Reload reviews saat kembali ke halaman (Page Visibility API)
-            document.addEventListener('visibilitychange', () => {
-                if (!document.hidden) {
-                    console.log('Rendering reviews on page return');
-                    renderProducts();
-                }
-            });
-        </script>
-    </body>
+                        `;
+            productList.appendChild(productDiv);
+          });
+        }
+
+        renderPagination(filtered.length, totalPages);
+        updateCartCount();
+      }
+
+      function renderPagination(totalItems, totalPages) {
+        const info = document.getElementById("pagination-info");
+        const container = document.getElementById("pagination");
+        if (!container) return;
+
+        const start = (currentPage - 1) * PRODUCTS_PER_PAGE + 1;
+        const end = Math.min(currentPage * PRODUCTS_PER_PAGE, totalItems);
+        info.textContent =
+          totalItems > 0
+            ? `Menampilkan ${start}–${end} dari ${totalItems} produk`
+            : "";
+
+        container.innerHTML = "";
+        if (totalPages <= 1) return;
+
+        // Tombol Sebelumnya
+        const prevBtn = document.createElement("button");
+        prevBtn.textContent = "<";
+        prevBtn.disabled = currentPage === 1;
+        prevBtn.onclick = () => {
+          currentPage--;
+          renderProducts();
+          scrollToTop();
+        };
+        container.appendChild(prevBtn);
+
+        // Tombol nomor halaman
+        for (let i = 1; i <= totalPages; i++) {
+          const btn = document.createElement("button");
+          btn.textContent = i;
+          if (i === currentPage) btn.classList.add("active");
+          btn.onclick = () => {
+            currentPage = i;
+            renderProducts();
+            scrollToTop();
+          };
+          container.appendChild(btn);
+        }
+
+        // Tombol Berikutnya
+        const nextBtn = document.createElement("button");
+        nextBtn.textContent = ">";
+        nextBtn.disabled = currentPage === totalPages;
+        nextBtn.onclick = () => {
+          currentPage++;
+          renderProducts();
+          scrollToTop();
+        };
+        container.appendChild(nextBtn);
+      }
+
+      function scrollToTop() {
+        document
+          .querySelector(".main-content")
+          ?.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      // Reset ke halaman 1 kalau search/filter berubah
+      function onSearchOrFilter() {
+        currentPage = 1;
+        renderProducts();
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        renderProducts();
+      });
+
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) renderProducts();
+      });
+
+      function toggleCart() {
+        const drawer = document.getElementById("cart-drawer");
+        const overlay = document.getElementById("cart-overlay");
+
+        drawer.classList.toggle("active");
+        overlay.classList.toggle("active");
+      }
+    </script>
+  </body>
 </html>
