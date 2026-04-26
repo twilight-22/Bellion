@@ -27,11 +27,9 @@
             <h3>Keranjang Belanja</h3>
             <button class="close-cart" onclick="toggleCart()">✕</button>
           </div>
-
           <div id="cart-items" class="cart-items-container">
             <div class="empty-cart-msg">Keranjangmu masih kosong nih.</div>
           </div>
-
           <div class="cart-footer">
             <div class="total-section">
               <span>Total Pembayaran</span>
@@ -49,29 +47,9 @@
               type="text"
               id="productSearch"
               placeholder="Cari produk..."
-              style="
-                width: 300px;
-                padding: 8px 12px;
-                border: 1px solid #ddd;
-                border-radius: 20px;
-                font-size: 13px;
-                outline: none;
-              "
               oninput="onSearchOrFilter()"
             />
-            <select
-              id="categoryFilter"
-              style="
-                padding: 8px 12px;
-                border: 1px solid #ddd;
-                border-radius: 20px;
-                font-size: 13px;
-                background: white;
-                cursor: pointer;
-                outline: none;
-              "
-              onchange="onSearchOrFilter()"
-            >
+            <select id="categoryFilter" onchange="onSearchOrFilter()">
               <option value="all">Semua Kategori</option>
               <option value="Fashion">Fashion</option>
               <option value="Elektronik">Elektronik</option>
@@ -86,7 +64,6 @@
 
           <div class="product-list"></div>
 
-          <!-- Pagination -->
           <div class="pagination-info" id="pagination-info"></div>
           <div class="pagination" id="pagination"></div>
         </main>
@@ -142,7 +119,6 @@
             image: "image/celana_gunung-removebg-preview.png",
             category: "Fashion",
           },
-
           {
             id: "mouse",
             name: "Mouse Gaming",
@@ -185,7 +161,6 @@
             image: "image/modem ROG.webp",
             category: "Elektronik",
           },
-
           {
             id: "bd1",
             name: "God Of War (PS4)",
@@ -228,7 +203,6 @@
             image: "image/GOW3-removebg-preview.png",
             category: "Game",
           },
-
           {
             id: "Beras10kilo",
             name: "Beras 10 Kilo",
@@ -271,7 +245,6 @@
             image: "image/mie sekardus.png",
             category: "Makanan",
           },
-
           {
             id: "RogAlly",
             name: "Rog Ally",
@@ -293,7 +266,6 @@
             image: "image/nintendi switch 2.png",
             category: "Elektronik",
           },
-
           {
             id: "KaosLari",
             name: "Kaos Lari",
@@ -447,7 +419,6 @@
         ).toLowerCase();
         const categoryVal =
           document.getElementById("categoryFilter")?.value || "all";
-
         return productMapping[0].filter((p) => {
           const matchCat = categoryVal === "all" || p.category === categoryVal;
           const matchSearch = p.name.toLowerCase().includes(searchVal);
@@ -461,19 +432,16 @@
 
         const filtered = getFilteredProducts();
         const totalPages = Math.ceil(filtered.length / PRODUCTS_PER_PAGE);
-
-        // Pastiin currentPage tidak melebihi totalPages
         if (currentPage > totalPages) currentPage = Math.max(1, totalPages);
 
         const start = (currentPage - 1) * PRODUCTS_PER_PAGE;
-        const end = start + PRODUCTS_PER_PAGE;
-        const pageProducts = filtered.slice(start, end);
+        const pageProducts = filtered.slice(start, start + PRODUCTS_PER_PAGE);
 
         productList.innerHTML = "";
 
         if (pageProducts.length === 0) {
           productList.innerHTML =
-            '<p style="text-align:center;color:#333333;margin-top:40px;">Produk tidak ditemukan.</p>';
+            '<p style="text-align:center;margin-top:40px;">Produk tidak ditemukan.</p>';
         } else {
           pageProducts.forEach((product) => {
             const combined = calculateCombinedRating(product.id);
@@ -485,20 +453,26 @@
             const productDiv = document.createElement("div");
             productDiv.className = "product";
             productDiv.dataset.category = product.category;
+
+            // ✅ URUTAN BENAR: gambar dulu di atas, baru teks di bawah
             productDiv.innerHTML = `
-                            <a href="product-detail.html?id=${product.id}" class="product-link">
-                                <h3>${product.name}</h3>
-                                <img src="${product.image}" alt="${product.name}">
-                                <p>Rp ${product.price.toLocaleString("id-ID")}</p>
-                                <div style="margin-top:8px;font-size:12px;">
-                                    ${starsHtml} <span style="color:#333333;">• ${combined.count} ulasan</span>
-                                </div>
-                            </a>
-                            <div class="actions">
-                                <button class="btn btn-buy" onclick="belisekarang('${product.name}', ${product.price})">Beli</button>
-                                <button class="btn btn-add" onclick="addToCart('${product.name}', ${product.price}, '${product.image}')">Tambah</button>
-                            </div>
-                        `;
+              <a href="product-detail.html?id=${product.id}" class="product-link">
+                <div class="product-img-wrap">
+                  <img src="${product.image}" alt="${product.name}"
+                    onerror="this.style.opacity='0'">
+                </div>
+                <h3>${product.name}</h3>
+                <p>Rp ${product.price.toLocaleString("id-ID")}</p>
+                <div class="product-rating">
+                  ${starsHtml}
+                  <span>(${combined.count} ulasan)</span>
+                </div>
+              </a>
+              <div class="actions">
+                <button class="btn btn-buy" onclick="belisekarang('${product.name}', ${product.price})">Beli</button>
+                <button class="btn btn-add" onclick="addToCart('${product.name}', ${product.price}, '${product.image}')">Tambah</button>
+              </div>
+            `;
             productList.appendChild(productDiv);
           });
         }
@@ -522,7 +496,6 @@
         container.innerHTML = "";
         if (totalPages <= 1) return;
 
-        // Tombol Sebelumnya
         const prevBtn = document.createElement("button");
         prevBtn.textContent = "<";
         prevBtn.disabled = currentPage === 1;
@@ -533,7 +506,6 @@
         };
         container.appendChild(prevBtn);
 
-        // Tombol nomor halaman
         for (let i = 1; i <= totalPages; i++) {
           const btn = document.createElement("button");
           btn.textContent = i;
@@ -546,7 +518,6 @@
           container.appendChild(btn);
         }
 
-        // Tombol Berikutnya
         const nextBtn = document.createElement("button");
         nextBtn.textContent = ">";
         nextBtn.disabled = currentPage === totalPages;
@@ -564,7 +535,6 @@
           ?.scrollTo({ top: 0, behavior: "smooth" });
       }
 
-      // Reset ke halaman 1 kalau search/filter berubah
       function onSearchOrFilter() {
         currentPage = 1;
         renderProducts();
@@ -573,17 +543,13 @@
       document.addEventListener("DOMContentLoaded", () => {
         renderProducts();
       });
-
       document.addEventListener("visibilitychange", () => {
         if (!document.hidden) renderProducts();
       });
 
       function toggleCart() {
-        const drawer = document.getElementById("cart-drawer");
-        const overlay = document.getElementById("cart-overlay");
-
-        drawer.classList.toggle("active");
-        overlay.classList.toggle("active");
+        document.getElementById("cart-drawer").classList.toggle("active");
+        document.getElementById("cart-overlay").classList.toggle("active");
       }
     </script>
   </body>
