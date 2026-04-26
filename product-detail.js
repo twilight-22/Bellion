@@ -1,7 +1,6 @@
-
 const DISCOUNT_CONFIG = {
   DISCOUNT_PERCENT: 30,
-  DISCOUNT_MIN_PRICE: 150000, 
+  DISCOUNT_MIN_PRICE: 150000,
 };
 
 // Product Data
@@ -551,7 +550,7 @@ function renderReviewsList(id) {
   const stored = getStoredReviews(id);
   if (stored.length === 0) {
     listEl.innerHTML =
-      '<p style="color:#333333;">Belum ada ulasan. Jadilah yang pertama!</p>';
+      '<p style="color:#3d5470;">Belum ada ulasan. Jadilah yang pertama!</p>';
     return;
   }
   listEl.innerHTML = "";
@@ -569,7 +568,7 @@ function renderReviewsList(id) {
       const when = new Date(r.date).toLocaleString();
       div.innerHTML = `<div style="font-size:14px;color:#333;">${stars}
               <small style="color:#999;margin-left:8px;">${when}</small></div>
-              <div style="margin-top:6px;color:#222;">${r.comment ? escapeHtml(r.comment) : ""}</div>`;
+              <div style="margin-top:6px;color:#f0f0f0;">${r.comment ? escapeHtml(r.comment) : ""}</div>`;
       listEl.appendChild(div);
     });
 }
