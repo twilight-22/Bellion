@@ -66,7 +66,13 @@
                   <label>No. WhatsApp</label>
                   <div class="field-icon">
                     <span class="ico">📱</span>
-                    <input type="tel" id="nomorWA" placeholder="08xx-xxxx-xxxx" pattern="^08\d{2}-\d{4}-\d{2,5}$" required />
+                    <input
+                      type="tel"
+                      id="nomorWA"
+                      placeholder="08xx-xxxx-xxxx"
+                      pattern="^08\d{2}-\d{4}-\d{2,5}$"
+                      required
+                    />
                   </div>
                 </div>
               </div>
@@ -340,29 +346,31 @@
       }
 
       // Auto-format phone number to 08xx-xxxx-xxxx
-      document.getElementById('nomorWA').addEventListener('input', function(e) {
-        let val = e.target.value.replace(/\D/g, ''); // Remove all non-numeric characters
-        
-        // Ensure it starts with 08 if there are any characters
-        if (val.length > 0 && !val.startsWith('0')) {
-          val = '08' + val;
-        } else if (val.length > 1 && !val.startsWith('08')) {
-          val = '08' + val.substring(2);
-        }
-        
-        if (val.length > 13) val = val.substring(0, 13); // Max 13 digits
-        
-        // Format as 08xx-xxxx-xxxx
-        let formatted = val;
-        if (val.length > 4) {
-          formatted = val.substring(0, 4) + '-' + val.substring(4);
-        }
-        if (val.length > 8) {
-          formatted = formatted.substring(0, 9) + '-' + val.substring(8);
-        }
-        
-        e.target.value = formatted;
-      });
+      document
+        .getElementById("nomorWA")
+        .addEventListener("input", function (e) {
+          let val = e.target.value.replace(/\D/g, ""); // Remove all non-numeric characters
+
+          // Ensure it starts with 08 if there are any characters
+          if (val.length > 0 && !val.startsWith("0")) {
+            val = "08" + val;
+          } else if (val.length > 1 && !val.startsWith("08")) {
+            val = "08" + val.substring(2);
+          }
+
+          if (val.length > 13) val = val.substring(0, 13); // Max 13 digits
+
+          // Format as 08xx-xxxx-xxxx
+          let formatted = val;
+          if (val.length > 4) {
+            formatted = val.substring(0, 4) + "-" + val.substring(4);
+          }
+          if (val.length > 8) {
+            formatted = formatted.substring(0, 9) + "-" + val.substring(8);
+          }
+
+          e.target.value = formatted;
+        });
 
       renderItems();
     </script>
