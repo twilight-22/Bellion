@@ -347,7 +347,7 @@ const productData = {
     image: "image/sandisk 256gb.png",
     category: "Elektronik - Storage Device",
     description:
-      "SanDisk 256GB adalah kartu memori berkapasitas besar dengan kecepatan tinggi, ideal untuk menyimpan foto, video, game, dan file penting.",
+      "SanDisk 256GB adalah kartu memori berkapasitas besar dengan kecepatan tinggi, ideal untuk menyimpan foto, video, game, dan file penting, marcel pernah kena scam.",
   },
   DeathStranding: {
     name: "Death Stranding",
